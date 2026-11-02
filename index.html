@@ -2,1131 +2,1010 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#080312">
 <title>For You — Happy Anniversary ♡</title>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap');
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+<style>
 :root {
-  --pink: #ff55cf;
-  --pink2: #ff9be7;
+  --pink: #ff5ca8;
+  --pink2: #ffb4d5;
   --violet: #a45cff;
   --ink: #080312;
 }
 
-* { box-sizing: border-box; }
-
-html, body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  min-height: 100%;
-  background: var(--ink);
-  color: #fff;
-  font-family: Prompt, sans-serif;
+  padding: 0;
 }
 
 body {
-  min-height: 100vh;
-  overflow-x: hidden;
-  background: radial-gradient(ellipse at 50% 55%, #210b38, #0b0618 48%, #03020a);
+  background: var(--ink);
+  color: white;
+  font-family: 'Prompt', sans-serif;
+  overflow: hidden;
 }
 
 button {
-  font: inherit;
-  color: inherit;
+  font-family: inherit;
   cursor: pointer;
 }
 
-#sky {
+#universe3d {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
   z-index: 0;
-  pointer-events: none;
 }
 
-.app {
-  position: relative;
+#universe3d canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
   z-index: 1;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 14px;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    rgba(4,0,15,.45) 75%,
+    #05000d 120%
+  );
 }
 
 .screen {
-  display: none;
-  width: min(650px, 100%);
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  animation: appear .65s ease both;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s, visibility 1s;
+  overflow-y: auto;
 }
 
-.screen.active { display: block; }
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+}
 
-@keyframes appear {
-  from { opacity: 0; transform: translateY(13px); }
-  to { opacity: 1; transform: none; }
+.welcome-card {
+  width: min(440px, 100%);
+  padding: 42px 25px;
+  border: 1px solid rgba(255,180,230,.3);
+  border-radius: 28px;
+  background: rgba(20,8,36,.68);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 60px rgba(207,52,255,.2);
 }
 
 .eyebrow {
-  font-size: 10px;
-  letter-spacing: 4px;
-  color: #d6a9ef;
-  text-transform: uppercase;
-  margin-bottom: 12px;
+  color: #e6a6ff;
+  letter-spacing: 5px;
+  font-size: 11px;
+  margin-bottom: 20px;
 }
 
 h1 {
-  font-size: clamp(32px, 8vw, 58px);
-  line-height: 1.1;
-  margin: 8px 0 15px;
-  color: #ffd5f5;
-  text-shadow: 0 0 10px #ff46c9, 0 0 30px #a42aff;
+  font-size: clamp(30px, 8vw, 54px);
+  font-weight: 500;
+  line-height: 1.35;
+  background: linear-gradient(90deg,#ff8ac6,#e4aaff,#ffb7df);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(255,100,210,.2);
 }
 
-h2 {
-  font-size: clamp(21px, 5vw, 30px);
-  color: #ffd4f5;
-  margin: 8px 0 12px;
-  text-shadow: 0 0 15px #ff3cbe;
+.subtitle {
+  color: #d9c5e8;
+  font-size: 13px;
+  margin: 18px 0 30px;
 }
 
-p {
-  color: #d9c5e7;
-  line-height: 1.8;
+.primary-btn {
+  border: 1px solid rgba(255,190,240,.65);
+  background: linear-gradient(135deg,#a832a7,#e44e9d);
+  color: white;
+  padding: 13px 27px;
+  border-radius: 50px;
   font-size: 14px;
-}
-
-.sub {
-  font-size: 12px;
-  color: #a991bb;
-}
-
-.glass {
-  margin: auto;
-  padding: 27px 20px;
-  border: 1px solid #ff8ce455;
-  border-radius: 23px;
-  background: linear-gradient(145deg, #260d3dcc, #0c0619ed);
-  box-shadow: 0 0 30px #d92ebc27, inset 0 0 28px #a83cff12;
-  backdrop-filter: blur(8px);
-}
-
-.start-card {
-  width: min(410px, 100%);
-  min-height: 270px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  box-shadow: 0 0 30px rgba(239,70,190,.4);
   transition: .3s;
-  position: relative;
-  overflow: hidden;
 }
 
-.start-card:before {
-  content: "";
-  position: absolute;
-  inset: 10px;
-  border: 1px solid #f4a1e544;
-  border-radius: 17px;
-  pointer-events: none;
+.primary-btn:active {
+  transform: scale(.95);
 }
 
-.start-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 45px #ff39c866;
+.primary-btn:hover {
+  box-shadow: 0 0 40px rgba(255,80,210,.7);
 }
 
-.start-heart {
-  font-size: 62px;
-  color: #ff8bdd;
-  filter: drop-shadow(0 0 15px #ff36c8);
-  animation: beat 1.5s infinite;
+#galaxy-screen {
+  align-items: flex-end;
+  padding-bottom: 10vh;
 }
 
-@keyframes beat {
-  50% { transform: scale(1.16); }
+.galaxy-content {
+  width: 100%;
+  opacity: 0;
+  transform: translateY(25px);
+  transition: 1.5s;
 }
 
-.btn {
-  border: 1px solid #ff9be8;
-  background: linear-gradient(100deg, #f329ad, #792de0);
+.galaxy-content.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.galaxy-content h1 {
+  font-size: clamp(30px, 8vw, 58px);
+  text-shadow: 0 0 30px #d43cff;
+}
+
+.galaxy-content p {
+  color: #e9c7ef;
+  font-size: 13px;
+  margin: 12px 0 25px;
+}
+
+.panel {
+  width: min(520px, 100%);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 28px 20px;
+  border: 1px solid rgba(255,170,230,.3);
+  border-radius: 25px;
+  background: rgba(16,5,32,.88);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 50px rgba(186,65,255,.2);
+}
+
+.panel h2 {
+  color: #ffb0d9;
+  font-size: 27px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  margin-top: 24px;
+  color: #eac9ff;
+  border: 1px solid rgba(255,255,255,.3);
+  background: transparent;
   border-radius: 30px;
-  padding: 10px 24px;
-  margin: 8px 4px;
-  box-shadow: 0 0 17px #f02ab355;
+  padding: 10px 23px;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 12px;
+}
+
+.memory-card {
+  min-height: 115px;
+  padding: 17px 10px;
+  border-radius: 17px;
+  border: 1px solid rgba(255,180,230,.35);
+  background: linear-gradient(145deg,rgba(174,70,170,.25),rgba(74,35,115,.3));
+  color: white;
+  font-size: 13px;
+  transition: .3s;
+}
+
+.memory-card:active {
+  transform: scale(.96);
+}
+
+.memory-card span {
+  display: block;
+  color: #ffb4d5;
+  font-size: 23px;
+  margin-bottom: 7px;
+}
+
+#memory-message {
+  margin-top: 20px;
+  color: #ffe1f0;
+  line-height: 1.9;
+  font-size: 14px;
+  min-height: 50px;
+}
+
+.gift {
+  font-size: 100px;
+  cursor: pointer;
+  animation: float 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px #ff54c4);
+}
+
+@keyframes float {
+  50% { transform: translateY(-15px) rotate(4deg); }
+}
+
+#gift-message {
+  margin-top: 20px;
+  color: #ffd6eb;
+  line-height: 1.8;
+}
+
+.photo {
+  width: 100%;
+  max-width: 310px;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  padding: 10px 10px 38px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 10px 40px #0008;
+  transform: rotate(-2deg);
+}
+
+.photo-caption {
+  color: #f5c6e5;
+  margin-top: 22px;
   font-size: 13px;
 }
 
-.btn.secondary {
-  background: #ffffff0a;
-  border-color: #c58bdd88;
-  box-shadow: none;
-}
-
-.btn:disabled {
-  opacity: .4;
-  cursor: default;
-}
-
-#universeCanvas {
-  width: min(490px, 94vw);
-  height: auto;
-  display: block;
-  margin: -5px auto -3px;
-  touch-action: manipulation;
-}
-
-.floating {
-  position: absolute;
-  left: 50%;
-  top: 68%;
-  transform: translate(-50%, -50%);
-  font-weight: 600;
-  letter-spacing: 5px;
-  color: #ff8bdc;
-  text-shadow: 0 0 14px #ff36d2;
-  white-space: nowrap;
-  pointer-events: none;
-  animation: floattext 3s ease-in-out infinite;
-}
-
-@keyframes floattext {
-  50% {
-    transform: translate(-50%, -68%);
-    opacity: .65;
-  }
-}
-
-.stage { position: relative; }
-
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: clamp(6px, 2vw, 15px);
-  margin: 28px auto 18px;
-  max-width: 560px;
-}
-
-.draw-card {
-  width: clamp(54px, 15vw, 88px);
-  height: clamp(88px, 23vw, 132px);
-  border: 1px solid #ec8be9;
-  border-radius: 11px;
-  background: linear-gradient(145deg, #32104f, #10081e);
-  box-shadow: 0 0 15px #e33cbd2b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 8px;
-  transition: .3s;
-  position: relative;
-  overflow: hidden;
-}
-
-.draw-card:before {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border: 1px solid #d889e777;
-  border-radius: 7px;
-}
-
-.draw-card .symbol {
-  font-size: clamp(22px, 6vw, 34px);
-  color: #ff9ee5;
-  text-shadow: 0 0 12px #ff48c6;
-}
-
-.draw-card small {
-  font-size: 8px;
-  letter-spacing: 2px;
-  color: #c99bda;
-}
-
-.draw-card:hover { transform: translateY(-9px) rotate(-2deg); }
-
-.draw-card.picked {
-  transform: translateY(-14px) scale(1.08);
-  background: linear-gradient(145deg, #a3218c, #3c176b);
-  box-shadow: 0 0 30px #ff49ce;
-}
-
-.draw-card.muted {
-  opacity: .25;
-  transform: scale(.94);
-}
-
-.result-card {
-  width: min(310px, 90%);
-  margin: 18px auto;
-  padding: 23px 18px;
-  border: 1px solid #ff8ae7;
-  border-radius: 17px;
-  background: linear-gradient(145deg, #351050, #120821);
-  box-shadow: 0 0 30px #ed36c755;
-  animation: appear .5s;
-}
-
-.result-card .big { font-size: 42px; }
-.result-card p { margin-bottom: 0; }
-
-.gift-icon {
-  font-size: 66px;
-  filter: drop-shadow(0 0 15px #ff4bc6);
-  animation: beat 1.6s infinite;
-}
-
-.menu-row {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 18px;
-}
-
-.memory-frame {
-  width: min(330px, 85%);
-  margin: 18px auto 10px;
-  padding: 9px;
-  border: 1px solid #ff8be4;
-  border-radius: 14px;
-  background: #1d0b2b;
-  box-shadow: 0 0 25px #ff35bd44;
-}
-
-.memory-frame img {
-  display: block;
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 8px;
-  background: #27123a;
-}
-
-.puzzle-layout {
+#puzzle {
+  width: min(300px, 85vw);
+  aspect-ratio: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 14px;
-  align-items: start;
-  margin: 20px auto;
-  max-width: 560px;
-}
-
-.puzzle-board, .piece-tray {
-  border: 1px solid #ff86dd66;
-  border-radius: 12px;
-  background: #160a25;
-  padding: 7px;
-}
-
-.puzzle-board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 3px;
-  aspect-ratio: 1;
+  margin: 15px auto;
 }
 
-.slot {
-  aspect-ratio: 1;
-  border: 1px dashed #b77acb66;
-  border-radius: 3px;
-  background: #0b0613;
-  position: relative;
-  overflow: hidden;
+.tile {
+  background-image: url('photo1.jpg');
+  background-size: 300% 300%;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,.2);
+  cursor: pointer;
 }
 
-.slot.over { outline: 2px solid #ff79d8; }
-
-.slot img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.piece-tray {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  min-height: 100%;
-}
-
-.piece {
-  aspect-ratio: 1;
-  border: 1px solid #df8bdd88;
-  border-radius: 4px;
-  overflow: hidden;
-  touch-action: none;
-  cursor: grab;
-  background-repeat: no-repeat;
-}
-
-.piece.dragging { opacity: .35; }
-.piece.placed {
-  opacity: .18;
-  pointer-events: none;
-}
-
-.puzzle-help {
-  font-size: 11px;
-  color: #bca5ce;
+.tile.empty {
+  background: rgba(255,255,255,.06);
+  border: 1px dashed #b78acb;
 }
 
 .letter {
-  white-space: pre-line;
   text-align: left;
-  line-height: 2;
-  background: #ffffff09;
-  border-left: 2px solid #ff6ed1;
-  padding: 17px;
-  border-radius: 8px;
-  color: #f5dff0;
+  color: #f6dcef;
   font-size: 14px;
+  line-height: 2;
+  white-space: pre-line;
 }
 
-#toast {
-  min-height: 22px;
-  color: #ffb6e8;
-  font-size: 12px;
+.letter-sign {
+  color: #ff9bcd;
+  text-align: right;
+  margin-top: 20px;
 }
 
-@media(max-width:440px) {
-  .glass { padding: 23px 13px; }
-  .puzzle-layout { gap: 7px; }
-  .puzzle-board, .piece-tray {
-    padding: 4px;
-    gap: 2px;
-  }
-  .memory-frame img { height: 210px; }
+#warp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle,transparent 0%,#07000e 100%);
+}
+
+#warp-overlay.active {
+  animation: warpFlash 2.7s ease-in-out;
+}
+
+@keyframes warpFlash {
+  0% { opacity: 0; }
+  25% { opacity: .3; }
+  70% { opacity: .7; }
+  100% { opacity: 0; }
+}
+
+#hint {
+  position: fixed;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: rgba(255,220,250,.6);
+  font-size: 10px;
+  letter-spacing: 2px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@media (max-width:600px) {
+  .panel { padding: 23px 15px; }
+  .memory-card { min-height: 105px; }
 }
 </style>
+
+<!-- Three.js -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+  }
+}
+</script>
 </head>
 
 <body>
 
-<canvas id="sky"></canvas>
+<div id="universe3d"></div>
+<div class="vignette"></div>
+<div id="warp-overlay"></div>
 
-<main class="app">
-
-<!-- 1. หน้าเริ่มต้น -->
-<section class="screen active" id="welcome">
-  <div class="eyebrow">a little universe made for you</div>
-
-  <div class="glass start-card" onclick="begin()">
-    <div class="start-heart">♡</div>
-    <h1>Happy<br>Anniversary</h1>
-    <p>แตะการ์ดเพื่อเริ่มต้นการเดินทางของเรา</p>
-    <div class="sub">TAP TO OPEN ✦</div>
-  </div>
-</section>
-
-<!-- 2. Galaxy Heart -->
-<section class="screen" id="galaxy">
-  <div class="eyebrow">you are my universe</div>
-
-  <div class="stage">
-    <canvas id="universeCanvas" width="600" height="520"></canvas>
-    <div class="floating">LOVE U FOREVER</div>
-  </div>
-
-  <h2>เธอคือจักรวาลของเค้า</h2>
-  <p>ในจักรวาลที่กว้างใหญ่ เค้าดีใจที่ได้พบเธอ</p>
-
-  <button class="btn" onclick="show('draw')">
-    ไปเลือกการ์ดกัน ✦
-  </button>
-</section>
-
-<!-- 3. สุ่มการ์ด -->
-<section class="screen" id="draw">
-  <div class="eyebrow">pick a card, find a message</div>
-
-  <div class="glass">
-    <h2>เลือกการ์ดหนึ่งใบ</h2>
-    <p>การ์ดแต่ละใบซ่อนข้อความพิเศษเอาไว้<br>
-    ลองเลือกใบที่หัวใจเรียกหา 💗</p>
-
-    <div class="cards" id="cards">
-      <button class="draw-card" onclick="pickCard(0)">
-        <span class="symbol">♡</span><small>LOVE</small>
-      </button>
-      <button class="draw-card" onclick="pickCard(1)">
-        <span class="symbol">✧</span><small>WISH</small>
-      </button>
-      <button class="draw-card" onclick="pickCard(2)">
-        <span class="symbol">☾</span><small>DREAM</small>
-      </button>
-      <button class="draw-card" onclick="pickCard(3)">
-        <span class="symbol">❀</span><small>HAPPY</small>
-      </button>
-      <button class="draw-card" onclick="pickCard(4)">
-        <span class="symbol">♡</span><small>FOREVER</small>
-      </button>
-    </div>
-
-    <div id="cardResult">
-      <div class="sub">YOUR LUCKY CARD IS WAITING</div>
-    </div>
-
-    <button class="btn secondary" onclick="resetCards()">สุ่มใหม่</button>
-    <button class="btn" id="cardNext" onclick="show('gift')" disabled>
-      รับข้อความแล้ว ไปต่อ →
-    </button>
-  </div>
-</section>
-
-<!-- 4. กล่องของขวัญ -->
-<section class="screen" id="gift">
-  <div class="glass">
-    <div class="eyebrow">a little gift for you</div>
-
-    <div class="gift-icon">🎁</div>
-    <h2>ของขวัญสำหรับเธอ</h2>
-    <p>แตะกล่องเพื่อเปิดของขวัญที่เค้าเตรียมไว้</p>
-
-    <button class="btn" onclick="revealGift()">เปิดของขวัญ ✨</button>
-
-    <div id="giftResult"></div>
-
-    <div class="menu-row">
-      <button class="btn secondary" onclick="show('galaxy')">ย้อนกลับ</button>
-      <button class="btn" onclick="show('photo')">ดูความทรงจำ →</button>
-    </div>
-  </div>
-</section>
-
-<!-- 5. รูปภาพความทรงจำ -->
-<section class="screen" id="photo">
-  <div class="glass">
-    <div class="eyebrow">our memories</div>
-    <h2>รูปภาพที่อยากเก็บไว้ตลอดไป</h2>
-
-    <p>
-      เปลี่ยนรูปนี้เป็นรูปของเราได้เลย<br>
-      <span class="sub">
-        ให้นำรูปมาใส่ในโฟลเดอร์เดียวกับ index.html
-        แล้วตั้งชื่อ photo1.jpg
-      </span>
+<!-- WELCOME -->
+<section id="welcome" class="screen active">
+  <div class="welcome-card">
+    <div class="eyebrow">A SPECIAL UNIVERSE</div>
+    <h1>Happy<br>Anniversary ♡</h1>
+    <p class="subtitle">
+      I made this little universe just for you.
     </p>
-
-    <div class="memory-frame">
-      <img id="memoryPhoto" src="photo1.jpg" alt="Our memory"
-      onerror="this.alt='เพิ่มไฟล์ photo1.jpg เพื่อแสดงรูปของคุณ';this.style.opacity='.25'">
-    </div>
-
-    <button class="btn" onclick="preparePuzzle()">
-      ต่อจิ๊กซอว์รูปนี้ 🧩
+    <button class="primary-btn" id="start">
+      Enter Our Universe ♡
     </button>
   </div>
 </section>
 
-<!-- 6. เกมจิ๊กซอว์ -->
-<section class="screen" id="puzzle">
-  <div class="glass">
-    <div class="eyebrow">put our memory together</div>
-    <h2>ต่อจิ๊กซอว์ความทรงจำ 🧩</h2>
-
-    <p>ลากชิ้นส่วนจากด้านขวา ไปวางในช่องที่ถูกต้อง</p>
-
-    <div class="puzzle-layout">
-      <div>
-        <div class="sub">PUZZLE BOARD</div>
-        <div class="puzzle-board" id="board"></div>
-      </div>
-
-      <div>
-        <div class="sub">PUZZLE PIECES</div>
-        <div class="piece-tray" id="tray"></div>
-      </div>
-    </div>
-
-    <div class="puzzle-help">
-      บนมือถือ: แตะชิ้นส่วน แล้วแตะช่องที่ต้องการวางก็ได้
-    </div>
-
-    <div id="puzzleStatus" class="sub">
-      วางชิ้นส่วนให้ครบทั้ง 9 ชิ้น
-    </div>
-
-    <button class="btn secondary" onclick="preparePuzzle()">
-      สลับชิ้นส่วนใหม่
-    </button>
-
-    <button class="btn" id="puzzleNext" onclick="show('letter')" disabled>
-      สำเร็จแล้ว ไปต่อ →
+<!-- GALAXY -->
+<section id="galaxy-screen" class="screen">
+  <div class="galaxy-content" id="galaxy-content">
+    <div class="eyebrow">OUR UNIVERSE</div>
+    <h1>LOVE U FOREVER</h1>
+    <p>You are my favorite universe.</p>
+    <button class="primary-btn" onclick="showScreen('memories')">
+      Explore Our Memories ♡
     </button>
   </div>
 </section>
 
-<!-- 7. จดหมาย -->
-<section class="screen" id="letter">
-  <div class="glass">
-    <div class="gift-icon">💌</div>
-    <div class="eyebrow">from my heart to yours</div>
-    <h2>ถึงคนพิเศษของเค้า</h2>
+<!-- MEMORIES -->
+<section id="memories" class="screen">
+  <div class="panel">
+    <div class="eyebrow">OUR LITTLE MOMENTS</div>
+    <h2>Our Memories ♡</h2>
 
-    <div class="letter">ขอบคุณที่เข้ามาเป็นส่วนหนึ่งในชีวิตนะ
+    <div class="memory-grid">
+      <button class="memory-card" onclick="showMemory(0)">
+        <span>♡</span>Our Beginning
+      </button>
+      <button class="memory-card" onclick="showMemory(1)">
+        <span>✦</span>My Favorite Person
+      </button>
+      <button class="memory-card" onclick="showMemory(2)">
+        <span>☾</span>Little Happiness
+      </button>
+      <button class="memory-card" onclick="showMemory(3)">
+        <span>∞</span>Forever Us
+      </button>
+      <button class="memory-card" onclick="showMemory(4)">
+        <span>🌷</span>My Promise
+      </button>
+    </div>
 
-ขอบคุณสำหรับทุกเสียงหัวเราะ
-ทุกช่วงเวลาที่อยู่ข้างกัน
-และทุกความทรงจำที่เราสร้างด้วยกัน
+    <div id="memory-message">
+      Choose a memory card to open ♡
+    </div>
 
-เค้าอาจไม่ได้เป็นคนที่สมบูรณ์แบบ
-แต่เค้าจะตั้งใจรักและดูแลเธอให้ดีที่สุด
-
-ขอให้เราได้จับมือกัน
-และสร้างเรื่องราวดี ๆ ไปอีกนานแสนนาน
-
-รักเธอมากนะ ♡</div>
-
-    <p>Happy Anniversary — Always yours.</p>
-
-    <button class="btn" onclick="finalLove()">
-      กดรับความรักจากเค้า 💗
+    <button class="back-btn" onclick="showScreen('galaxy-screen')">
+      Back to Galaxy
     </button>
-
-    <div id="finalText" class="sub"></div>
-
-    <button class="btn secondary" onclick="show('welcome')">
-      กลับไปเริ่มใหม่ ↻
+    <button class="primary-btn" onclick="showScreen('gift')">
+      Next ♡
     </button>
   </div>
 </section>
 
-</main>
+<!-- GIFT -->
+<section id="gift" class="screen">
+  <div class="panel">
+    <div class="eyebrow">A LITTLE SURPRISE</div>
+    <h2>Something for You</h2>
+    <div class="gift" onclick="openGift()">🎁</div>
+    <div id="gift-message">
+      Tap the gift box to open it ♡
+    </div>
+    <button class="back-btn" onclick="showScreen('memories')">
+      Back
+    </button>
+    <button class="primary-btn" onclick="showScreen('photo')">
+      Next ♡
+    </button>
+  </div>
+</section>
+
+<!-- PHOTO -->
+<section id="photo" class="screen">
+  <div class="panel">
+    <div class="eyebrow">YOU & ME</div>
+    <h2>Our Favorite Photo</h2>
+    <img class="photo" src="photo1.jpg"
+         alt="Our memory"
+         onerror="this.style.display='none'">
+    <div class="photo-caption">
+      Every moment with you is special.
+    </div>
+    <button class="back-btn" onclick="showScreen('gift')">
+      Back
+    </button>
+    <button class="primary-btn" onclick="showScreen('puzzle-screen')">
+      Play Puzzle ♡
+    </button>
+  </div>
+</section>
+
+<!-- PUZZLE -->
+<section id="puzzle-screen" class="screen">
+  <div class="panel">
+    <div class="eyebrow">A LITTLE GAME</div>
+    <h2>Our Love Puzzle</h2>
+    <p style="font-size:12px;color:#ddc6eb">
+      Tap a tile next to the empty space to move it.
+    </p>
+    <div id="puzzle"></div>
+    <p id="puzzle-status" style="color:#ffc0df;font-size:13px">
+      Put our picture back together ♡
+    </p>
+    <button class="back-btn" onclick="shufflePuzzle()">
+      Shuffle
+    </button>
+    <button class="primary-btn" onclick="showScreen('photo')">
+      Back
+    </button>
+    <button class="primary-btn" onclick="showScreen('letter')">
+      Finish ♡
+    </button>
+  </div>
+</section>
+
+<!-- LETTER -->
+<section id="letter" class="screen">
+  <div class="panel">
+    <div class="eyebrow">JUST FOR YOU</div>
+    <h2>My Love Letter</h2>
+    <div class="letter">To my favorite person,
+
+Thank you for being part of my life.
+Thank you for every smile, every hug,
+and every little moment we share.
+
+Even if the universe is endless,
+my favorite place will always be
+wherever you are.
+
+I hope we can create many more
+beautiful memories together.
+
+Happy Anniversary, my love. ♡</div>
+    <div class="letter-sign">
+      With all my love ♡
+    </div>
+    <button class="back-btn" onclick="showScreen('puzzle-screen')">
+      Back
+    </button>
+    <button class="primary-btn" onclick="showScreen('galaxy-screen')">
+      Return to Our Universe
+    </button>
+  </div>
+</section>
+
+<div id="hint">MADE WITH LOVE ♡</div>
 
 <script>
-
-// ===================================
-// 1. ข้อความในการ์ด
-// ===================================
-
-const messages = [
- {
-  icon: '💗',
-  title: 'ความรัก',
-  body: 'ขอบคุณที่ทำให้ทุกวันธรรมดากลายเป็นวันที่พิเศษ เค้าดีใจที่มีเธออยู่ตรงนี้'
- },
- {
-  icon: '🌟',
-  title: 'คำอธิษฐาน',
-  body: 'ขอให้เธอมีรอยยิ้มในทุก ๆ วัน และไม่ว่าจะเจออะไร เค้าจะคอยอยู่ข้าง ๆ เสมอ'
- },
- {
-  icon: '🌙',
-  title: 'ความฝัน',
-  body: 'อยากมีเธออยู่ในทุกความฝัน และอยากตื่นมาเจอเธอในทุก ๆ เช้า'
- },
- {
-  icon: '🌷',
-  title: 'ความสุข',
-  body: 'รอยยิ้มของเธอเป็นหนึ่งในสิ่งที่เค้าชอบที่สุด ขอบคุณที่ทำให้โลกของเค้าสดใส'
- },
- {
-  icon: '💞',
-  title: 'ตลอดไป',
-  body: 'วันนี้ วันพรุ่งนี้ และวันต่อ ๆ ไป เค้าก็ยังอยากเลือกเธอเป็นคนเดิม'
- }
-];
-
-let picked = false;
-
-
-// ===================================
-// 2. ระบบเปลี่ยนหน้า
-// ===================================
-
-function show(id) {
+function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => {
     s.classList.remove('active');
   });
-
   document.getElementById(id).classList.add('active');
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
 }
 
-function begin() {
-  show('galaxy');
-  burst(innerWidth / 2, innerHeight / 2);
+const memories = [
+  "The day our story began became one of my favorite memories. ♡",
+  "Out of all the people in this universe, I am glad I found you.",
+  "Even the smallest moments become special when I spend them with you.",
+  "No matter how far the stars are, I will always choose you.",
+  "I promise to keep making beautiful memories with you. ♡"
+];
+
+function showMemory(i) {
+  document.getElementById('memory-message').textContent = memories[i];
 }
 
+let giftOpened = false;
 
-// ===================================
-// 3. ระบบสุ่มการ์ด
-// ===================================
-
-function pickCard(index) {
-
-  if (picked) return;
-
-  picked = true;
-
-  const cards = [...document.querySelectorAll('.draw-card')];
-
-  cards.forEach((card, i) => {
-    card.classList.toggle('picked', i === index);
-    card.classList.toggle('muted', i !== index);
-  });
-
-  const m = messages[index];
-
-  document.getElementById('cardResult').innerHTML = `
-    <div class="result-card">
-      <div class="big">${m.icon}</div>
-      <div class="eyebrow">YOUR MESSAGE</div>
-      <h2>${m.title}</h2>
-      <p>${m.body}</p>
-    </div>
-  `;
-
-  document.getElementById('cardNext').disabled = false;
-
-  burst(innerWidth / 2, innerHeight * .48);
+function openGift() {
+  if (giftOpened) return;
+  giftOpened = true;
+  document.querySelector('.gift').textContent = '💝';
+  document.getElementById('gift-message').textContent =
+    'My greatest gift is having you in my life. I love you endlessly. ♡';
 }
 
-function resetCards() {
+// PUZZLE
+let puzzleTiles = [];
 
-  picked = false;
+function renderPuzzle() {
+  const puzzle = document.getElementById('puzzle');
+  puzzle.innerHTML = '';
 
-  document.querySelectorAll('.draw-card').forEach(card => {
-    card.classList.remove('picked', 'muted');
+  puzzleTiles.forEach((value,index) => {
+    const tile = document.createElement('div');
+    tile.className = 'tile' + (value === 8 ? ' empty' : '');
+
+    if (value !== 8) {
+      tile.style.backgroundPosition =
+        `${(value % 3) * 50}% ${Math.floor(value / 3) * 50}%`;
+    }
+
+    tile.addEventListener('click', () => moveTile(index));
+    puzzle.appendChild(tile);
   });
 
-  document.getElementById('cardResult').innerHTML =
-    '<div class="sub">YOUR LUCKY CARD IS WAITING</div>';
-
-  document.getElementById('cardNext').disabled = true;
-}
-
-
-// ===================================
-// 4. ระบบของขวัญ
-// ===================================
-
-function revealGift() {
-
-  document.getElementById('giftResult').innerHTML = `
-    <div class="result-card">
-      <div class="big">💝</div>
-      <h2>ของขวัญของเธอ</h2>
-      <p>
-        เค้าขอมอบเวลาที่มีความสุข
-        เสียงหัวเราะ และความรักให้เธอในทุก ๆ วัน
-      </p>
-    </div>
-  `;
-
-  burst(innerWidth / 2, innerHeight * .48);
-}
-
-
-// ===================================
-// 5. เอฟเฟกต์หัวใจและประกาย
-// ===================================
-
-function finalLove() {
-
-  document.getElementById('finalText').textContent =
-    'กอดแน่น ๆ หนึ่งที! รักเธอที่สุดเลย 🥰';
-
-  for (let i = 0; i < 6; i++) {
-    setTimeout(() => {
-      burst(
-        Math.random() * innerWidth,
-        Math.random() * innerHeight * .7
-      );
-    }, i * 180);
+  if (puzzleTiles.every((v,i) => v === i)) {
+    document.getElementById('puzzle-status').textContent =
+      'You did it! Our picture is complete. ♡';
   }
 }
 
-function burst(x, y) {
+function moveTile(index) {
+  const empty = puzzleTiles.indexOf(8);
+  const distance =
+    Math.abs(Math.floor(index / 3) - Math.floor(empty / 3)) +
+    Math.abs(index % 3 - empty % 3);
 
-  for (let i = 0; i < 26; i++) {
+  if (distance !== 1) return;
 
-    const e = document.createElement('span');
+  [puzzleTiles[index], puzzleTiles[empty]] =
+    [puzzleTiles[empty], puzzleTiles[index]];
 
-    e.textContent = ['💗', '✦', '💖', '✨'][i % 4];
-
-    e.style.cssText = `
-      position:fixed;
-      left:${x}px;
-      top:${y}px;
-      z-index:10;
-      pointer-events:none;
-      font-size:${12 + Math.random() * 17}px;
-      transition:transform 1.2s,opacity 1.2s;
-    `;
-
-    document.body.append(e);
-
-    const a = Math.random() * 6.28;
-    const d = 45 + Math.random() * 130;
-
-    requestAnimationFrame(() => {
-
-      e.style.transform = `
-        translate(
-          ${Math.cos(a) * d}px,
-          ${Math.sin(a) * d}px
-        ) rotate(180deg)
-      `;
-
-      e.style.opacity = 0;
-    });
-
-    setTimeout(() => e.remove(), 1300);
-  }
+  renderPuzzle();
 }
 
+function shufflePuzzle() {
+  puzzleTiles = [0,1,2,3,4,5,6,7,8];
 
-// ===================================
-// 6. ระบบจิ๊กซอว์ 3x3
-// ===================================
+  for (let i = 0; i < 150; i++) {
+    const empty = puzzleTiles.indexOf(8);
+    const row = Math.floor(empty / 3);
+    const col = empty % 3;
 
-let selectedPiece = null;
-let placed = 0;
+    const choices = [
+      ...(row > 0 ? [empty-3] : []),
+      ...(row < 2 ? [empty+3] : []),
+      ...(col > 0 ? [empty-1] : []),
+      ...(col < 2 ? [empty+1] : [])
+    ];
 
-function preparePuzzle() {
+    const next = choices[Math.floor(Math.random()*choices.length)];
 
-  const board = document.getElementById('board');
-  const tray = document.getElementById('tray');
-
-  board.innerHTML = '';
-  tray.innerHTML = '';
-
-  selectedPiece = null;
-  placed = 0;
-
-  document.getElementById('puzzleStatus').textContent =
-    'วางชิ้นส่วนให้ครบทั้ง 9 ชิ้น';
-
-  document.getElementById('puzzleNext').disabled = true;
-
-  const img = document.getElementById('memoryPhoto');
-
-  // สุ่มลำดับชิ้นส่วน
-  const order = [0,1,2,3,4,5,6,7,8];
-
-  for (let i = order.length - 1; i > 0; i--) {
-
-    const j = Math.floor(Math.random() * (i + 1));
-
-    [order[i], order[j]] = [order[j], order[i]];
+    [puzzleTiles[empty],puzzleTiles[next]] =
+      [puzzleTiles[next],puzzleTiles[empty]];
   }
 
+  document.getElementById('puzzle-status').textContent =
+    'Put our picture back together ♡';
 
-  // สร้างช่องจิ๊กซอว์
-  for (let slot = 0; slot < 9; slot++) {
-
-    const cell = document.createElement('div');
-
-    cell.className = 'slot';
-    cell.dataset.slot = slot;
-
-    cell.addEventListener('dragover', e => {
-      e.preventDefault();
-      cell.classList.add('over');
-    });
-
-    cell.addEventListener('dragleave', () => {
-      cell.classList.remove('over');
-    });
-
-    cell.addEventListener('drop', e => {
-
-      e.preventDefault();
-
-      cell.classList.remove('over');
-
-      const id = Number(e.dataTransfer.getData('text/plain'));
-
-      placePiece(id, slot);
-    });
-
-    cell.addEventListener('click', () => {
-
-      if (selectedPiece !== null) {
-        placePiece(selectedPiece, slot);
-      }
-
-    });
-
-    board.append(cell);
-  }
-
-
-  // สร้างชิ้นส่วน
-  order.forEach((correct, index) => {
-
-    const piece = document.createElement('div');
-
-    piece.className = 'piece';
-    piece.draggable = true;
-
-    piece.dataset.correct = correct;
-    piece.dataset.id = index;
-
-    piece.style.backgroundImage =
-      `url("${img.getAttribute('src')}")`;
-
-    piece.style.backgroundSize = '300% 300%';
-
-    piece.style.backgroundPosition =
-      `${(correct % 3) * 50}% ${Math.floor(correct / 3) * 50}%`;
-
-
-    piece.addEventListener('dragstart', e => {
-
-      e.dataTransfer.setData('text/plain', index);
-
-      piece.classList.add('dragging');
-    });
-
-    piece.addEventListener('dragend', () => {
-      piece.classList.remove('dragging');
-    });
-
-    piece.addEventListener('click', () => {
-
-      document.querySelectorAll('.piece').forEach(p => {
-        p.style.outline = '';
-      });
-
-      selectedPiece = index;
-
-      piece.style.outline = '2px solid #ff75d8';
-
-      document.getElementById('puzzleStatus').textContent =
-        'เลือกชิ้นส่วนแล้ว แตะช่องที่ต้องการวาง';
-    });
-
-    tray.append(piece);
-  });
-
-  show('puzzle');
+  renderPuzzle();
 }
 
+shufflePuzzle();
+</script>
 
-// วางชิ้นส่วนลงในช่อง
+<!-- 3D ENGINE -->
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-function placePiece(id, slot) {
+const container = document.getElementById('universe3d');
 
-  const piece = [...document.querySelectorAll('.piece')]
-    .find(p => Number(p.dataset.id) === id);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x05000d);
+scene.fog = new THREE.FogExp2(0x080015,0.012);
 
-  const cell = document.querySelector(
-    `.slot[data-slot="${slot}"]`
+const camera = new THREE.PerspectiveCamera(
+  55,
+  window.innerWidth/window.innerHeight,
+  0.1,
+  300
+);
+
+camera.position.set(0,0,13);
+
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  alpha: false,
+  powerPreference: 'high-performance'
+});
+
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.75));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.35;
+container.appendChild(renderer.domElement);
+
+// BLOOM
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene,camera));
+
+const bloom = new UnrealBloomPass(
+  new THREE.Vector2(window.innerWidth,window.innerHeight),
+  1.5,
+  0.55,
+  0.12
+);
+
+composer.addPass(bloom);
+
+// LIGHTS
+scene.add(new THREE.AmbientLight(0x9c6bba,1.5));
+
+const pinkLight = new THREE.PointLight(0xff36b5,90,40);
+pinkLight.position.set(-4,3,5);
+scene.add(pinkLight);
+
+const violetLight = new THREE.PointLight(0x743dff,110,40);
+violetLight.position.set(4,-3,4);
+scene.add(violetLight);
+
+const frontLight = new THREE.PointLight(0xffffff,35,30);
+frontLight.position.set(0,2,8);
+scene.add(frontLight);
+
+// HEART SHAPE
+const heartShape = new THREE.Shape();
+
+const points = [];
+
+for (let i=0;i<=160;i++) {
+  const t = i/160*Math.PI*2;
+
+  const x = 16*Math.pow(Math.sin(t),3);
+  const y = 13*Math.cos(t)
+    -5*Math.cos(2*t)
+    -2*Math.cos(3*t)
+    -Math.cos(4*t);
+
+  points.push(new THREE.Vector2(x*0.12,y*0.12));
+}
+
+heartShape.moveTo(points[0].x,points[0].y);
+
+for (let i=1;i<points.length;i++) {
+  heartShape.lineTo(points[i].x,points[i].y);
+}
+
+heartShape.closePath();
+
+const heartGeometry = new THREE.ExtrudeGeometry(heartShape,{
+  depth:1.35,
+  bevelEnabled:true,
+  bevelSegments:5,
+  steps:2,
+  bevelSize:0.16,
+  bevelThickness:0.18,
+  curveSegments:16
+});
+
+heartGeometry.computeBoundingBox();
+
+const center = new THREE.Vector3();
+heartGeometry.boundingBox.getCenter(center);
+heartGeometry.translate(-center.x,-center.y,-center.z);
+
+const heartMaterial = new THREE.MeshPhysicalMaterial({
+  color:0xff348f,
+  metalness:0.28,
+  roughness:0.19,
+  clearcoat:1,
+  clearcoatRoughness:0.1,
+  emissive:0x7c073d,
+  emissiveIntensity:0.5
+});
+
+const heart = new THREE.Mesh(heartGeometry,heartMaterial);
+scene.add(heart);
+
+// PARTICLE HEART
+const heartParticles = new THREE.BufferGeometry();
+const particlePositions = [];
+const particleColors = [];
+
+const particleCount = 6500;
+
+for(let i=0;i<particleCount;i++) {
+  const t = Math.random()*Math.PI*2;
+  const r = Math.sqrt(Math.random());
+
+  const x = 16*Math.pow(Math.sin(t),3)*0.12*r;
+  const y = (
+    13*Math.cos(t)
+    -5*Math.cos(2*t)
+    -2*Math.cos(3*t)
+    -Math.cos(4*t)
+  )*0.12*r;
+
+  const z = (Math.random()-0.5)*1.5;
+
+  particlePositions.push(x,y-0.15,z);
+
+  const color = new THREE.Color();
+  color.setHSL(
+    0.87 + Math.random()*0.09,
+    0.8,
+    0.55 + Math.random()*0.35
   );
 
-  if (!piece || !cell) return;
-
-  if (cell.children.length) return;
-
-  if (piece.classList.contains('placed')) return;
-
-
-  // ตรวจสอบตำแหน่งที่ถูกต้อง
-
-  if (Number(piece.dataset.correct) !== slot) {
-
-    document.getElementById('puzzleStatus').textContent =
-      'ยังไม่ใช่ตำแหน่งนี้ ลองอีกครั้งนะ 💗';
-
-    return;
-  }
-
-
-  // แสดงชิ้นส่วนที่วางถูกต้อง
-
-  const crop = document.createElement('div');
-
-  crop.style.cssText = `
-    width:100%;
-    height:100%;
-    background-image:${piece.style.backgroundImage};
-    background-size:300% 300%;
-    background-position:${piece.style.backgroundPosition};
-  `;
-
-  cell.append(crop);
-
-  piece.classList.add('placed');
-  piece.style.outline = '';
-
-  selectedPiece = null;
-
-  placed++;
-
-  document.getElementById('puzzleStatus').textContent =
-    `ต่อสำเร็จ ${placed}/9 ชิ้น`;
-
-
-  // เมื่อจิ๊กซอว์ครบ
-
-  if (placed === 9) {
-
-    document.getElementById('puzzleStatus').textContent =
-      'เก่งมาก! เราต่อความทรงจำของเราสำเร็จแล้ว 💖';
-
-    document.getElementById('puzzleNext').disabled = false;
-
-    burst(innerWidth / 2, innerHeight * .45);
-  }
+  particleColors.push(color.r,color.g,color.b);
 }
 
+heartParticles.setAttribute(
+  'position',
+  new THREE.Float32BufferAttribute(particlePositions,3)
+);
 
-// ===================================
-// 7. พื้นหลังดาว
-// ===================================
+heartParticles.setAttribute(
+  'color',
+  new THREE.Float32BufferAttribute(particleColors,3)
+);
 
-const sky = document.getElementById('sky');
-const ctx = sky.getContext('2d');
+const particleMaterial = new THREE.PointsMaterial({
+  size:0.035,
+  vertexColors:true,
+  transparent:true,
+  opacity:0.95,
+  blending:THREE.AdditiveBlending,
+  depthWrite:false
+});
 
-let stars = [];
+const heartDust = new THREE.Points(heartParticles,particleMaterial);
+heart.add(heartDust);
 
-function resize() {
+// GALAXY RINGS
+const rings = [];
 
-  sky.width = innerWidth * devicePixelRatio;
-  sky.height = innerHeight * devicePixelRatio;
+for(let ring=0;ring<4;ring++) {
+  const positions = [];
+  const colors = [];
 
-  ctx.setTransform(
-    devicePixelRatio, 0, 0,
-    devicePixelRatio, 0, 0
-  );
+  const count = 1800;
 
-  stars = Array.from({length:135}, () => ({
-    x: Math.random() * innerWidth,
-    y: Math.random() * innerHeight,
-    r: Math.random() * 1.4 + .2,
-    p: Math.random() * 6.28
-  }));
-}
+  for(let i=0;i<count;i++) {
+    const angle = Math.random()*Math.PI*2;
+    const radius = 2.2 + Math.random()*2.5 + ring*0.25;
 
-function starLoop() {
+    const x = Math.cos(angle)*radius;
+    const y = Math.sin(angle)*radius*0.34;
+    const z = (Math.random()-0.5)*0.35;
 
-  ctx.clearRect(0, 0, innerWidth, innerHeight);
+    positions.push(x,y,z);
 
-  stars.forEach(s => {
-
-    s.p += .012;
-
-    ctx.fillStyle =
-      `rgba(255,211,248,${.2 + .65 * Math.abs(Math.sin(s.p))})`;
-
-    ctx.beginPath();
-
-    ctx.arc(s.x, s.y, s.r, 0, 6.28);
-
-    ctx.fill();
-  });
-
-  requestAnimationFrame(starLoop);
-}
-
-addEventListener('resize', resize);
-
-resize();
-starLoop();
-
-
-// ===================================
-// 8. กาแล็กซีและหัวใจอนุภาค
-// ===================================
-
-const cv = document.getElementById('universeCanvas');
-const c = cv.getContext('2d');
-
-let tick = 0;
-
-function heart(t) {
-
-  return {
-    x: 16 * Math.sin(t) ** 3,
-
-    y: -(
-      13 * Math.cos(t)
-      - 5 * Math.cos(2*t)
-      - 2 * Math.cos(3*t)
-      - Math.cos(4*t)
-    )
-  };
-}
-
-function galaxyLoop() {
-
-  c.clearRect(0, 0, 600, 520);
-
-  c.save();
-
-  c.translate(300, 250);
-
-
-  // วงแหวนกาแล็กซี
-
-  for (let i = 0; i < 1500; i++) {
-
-    const arm = i % 3;
-
-    const a = i * .115 + tick * .25 + arm * 2.094;
-
-    const r = 12 + (i % 500) * .32;
-
-    const x = Math.cos(a) * r;
-    const y = Math.sin(a) * r * .48;
-
-    c.fillStyle =
-      `hsla(${275 + (i % 90)},100%,${58 + (i % 30)}%,${.25 + (i % 4) * .13})`;
-
-    c.fillRect(x, y, 1.7, 1.7);
-  }
-
-
-  // หัวใจที่สร้างจากอนุภาค
-
-  for (let i = 0; i < 950; i++) {
-
-    const a = i / 950 * Math.PI * 2;
-
-    const p = heart(a);
-
-    const j = Math.sin(i * 13 + tick * 3) * .7;
-
-    c.beginPath();
-
-    c.arc(
-      p.x * 8 + j,
-      p.y * 8 + j,
-      1.05 + (i % 3) * .25,
-      0,
-      6.28
+    const c = new THREE.Color();
+    c.setHSL(
+      ring%2===0 ? 0.86 : 0.73,
+      0.85,
+      0.5+Math.random()*0.35
     );
 
-    c.fillStyle =
-      `rgba(255,${125 + (i % 100)},225,${.55 + (i % 4) * .1})`;
-
-    c.fill();
+    colors.push(c.r,c.g,c.b);
   }
 
-  c.restore();
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
+    'position',
+    new THREE.Float32BufferAttribute(positions,3)
+  );
+  geometry.setAttribute(
+    'color',
+    new THREE.Float32BufferAttribute(colors,3)
+  );
 
-  tick += .012;
+  const material = new THREE.PointsMaterial({
+    size:0.035,
+    vertexColors:true,
+    transparent:true,
+    opacity:0.85,
+    blending:THREE.AdditiveBlending,
+    depthWrite:false
+  });
 
-  requestAnimationFrame(galaxyLoop);
+  const ringPoints = new THREE.Points(geometry,material);
+  ringPoints.rotation.x = 0.35+ring*0.2;
+  ringPoints.rotation.y = ring*0.17;
+
+  scene.add(ringPoints);
+  rings.push(ringPoints);
 }
 
-galaxyLoop();
+// STARS
+const starGeometry = new THREE.BufferGeometry();
+const starPositions = [];
 
+const starCount = 5500;
+
+for(let i=0;i<starCount;i++) {
+  starPositions.push(
+    (Math.random()-0.5)*100,
+    (Math.random()-0.5)*70,
+    (Math.random()-0.5)*110-20
+  );
+}
+
+starGeometry.setAttribute(
+  'position',
+  new THREE.Float32BufferAttribute(starPositions,3)
+);
+
+const starMaterial = new THREE.PointsMaterial({
+  color:0xffffff,
+  size:0.075,
+  transparent:true,
+  opacity:0.85,
+  sizeAttenuation:true
+});
+
+const stars = new THREE.Points(starGeometry,starMaterial);
+scene.add(stars);
+
+// NEBULA GLOW
+function makeGlow(color,size,opacity) {
+  const sprite = new THREE.Sprite(
+    new THREE.SpriteMaterial({
+      map:createGlowTexture(),
+      color:color,
+      transparent:true,
+      opacity:opacity,
+      blending:THREE.AdditiveBlending,
+      depthWrite:false
+    })
+  );
+
+  sprite.scale.set(size,size,1);
+  return sprite;
+}
+
+function createGlowTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width=128;
+  canvas.height=128;
+
+  const ctx=canvas.getContext('2d');
+  const gradient=ctx.createRadialGradient(64,64,0,64,64,64);
+
+  gradient.addColorStop(0,'rgba(255,255,255,1)');
+  gradient.addColorStop(.2,'rgba(255,150,230,.7)');
+  gradient.addColorStop(1,'rgba(100,20,180,0)');
+
+  ctx.fillStyle=gradient;
+  ctx.fillRect(0,0,128,128);
+
+  return new THREE.CanvasTexture(canvas);
+}
+
+const glow1=makeGlow(0xff2eb8,8,0.28);
+glow1.position.set(-3,1,-2);
+scene.add(glow1);
+
+const glow2=makeGlow(0x743dff,10,0.24);
+glow2.position.set(3,-2,-4);
+scene.add(glow2);
+
+// WARP SYSTEM
+let warp=false;
+let warpStart=0;
+let cinematicStarted=false;
+
+function beginWarp() {
+  warp=true;
+  warpStart=performance.now();
+  document.getElementById('warp-overlay').classList.add('active');
+}
+
+document.getElementById('start').addEventListener('click',()=>{
+  showScreen('galaxy-screen');
+  beginWarp();
+});
+
+function updateWarp(delta) {
+  if(!warp) return;
+
+  const pos=starGeometry.attributes.position;
+  const speed=delta* (cinematicStarted ? 3 : 45);
+
+  for(let i=0;i<starCount;i++) {
+    pos.array[i*3+2]+=speed;
+
+    if(pos.array[i*3+2]>13) {
+      pos.array[i*3]=(Math.random()-0.5)*100;
+      pos.array[i*3+1]=(Math.random()-0.5)*70;
+      pos.array[i*3+2]=-100;
+    }
+  }
+
+  pos.needsUpdate=true;
+
+  const elapsed=performance.now()-warpStart;
+
+  if(elapsed>2600) {
+    warp=false;
+    cinematicStarted=true;
+
+    document.getElementById('galaxy-content').classList.add('show');
+  }
+}
+
+// CINEMATIC CAMERA
+let elapsedTime=0;
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  const delta=Math.min(clock.getDelta(),0.05);
+  elapsedTime+=delta;
+
+  updateWarp(delta);
+
+  heart.rotation.y=Math.sin(elapsedTime*0.35)*0.22;
+  heart.rotation.z=Math.sin(elapsedTime*0.45)*0.035;
+
+  const pulse=1+Math.sin(elapsedTime*1.7)*0.025;
+  heart.scale.setScalar(pulse);
+
+  heartDust.rotation.y=elapsedTime*0.08;
+
+  rings.forEach((ring,i)=>{
+    ring.rotation.z+=(i%2===0 ? 1 : -1)*delta*(0.08+i*0.025);
+    ring.rotation.x=Math.sin(elapsedTime*0.15+i)*0.08+0.35+i*0.2;
+  });
+
+  pinkLight.intensity=90+Math.sin(elapsedTime*1.5)*15;
+  violetLight.intensity=110+Math.cos(elapsedTime*1.2)*20;
+
+  glow1.material.opacity=0.2+Math.sin(elapsedTime)*0.08;
+
+  if(cinematicStarted && !warp) {
+    camera.position.x=Math.sin(elapsedTime*0.18)*0.45;
+    camera.position.y=Math.sin(elapsedTime*0.24)*0.22;
+    camera.lookAt(0,0,0);
+  }
+
+  composer.render();
+}
+
+const clock=new THREE.Clock();
+animate();
+
+// RESIZE
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  composer.setSize(window.innerWidth,window.innerHeight);
+  bloom.setSize(window.innerWidth,window.innerHeight);
+});
 </script>
+
 </body>
 </html>
+
