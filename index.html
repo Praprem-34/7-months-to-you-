@@ -293,10 +293,10 @@ h1 {
 }
 
 .tile {
-  background-image: url('photo1.jpg');
+  background-image: url('Photo Touch the head.jpeg');
   background-size: 300% 300%;
-  border-radius: 5px;
-  border: 1px solid rgba(255,255,255,.2);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .tile.empty {
@@ -1067,13 +1067,23 @@ function renderPuzzle() {
   puzzleTiles.forEach((value,index) => {
     const tile = document.createElement('div');
 
-    tile.className =
-      'tile' + (value === 8 ? ' empty' : '');
+    
+tile.className =
+  'tile' + (value === 8 ? ' empty' : '');
 
-    if(value !== 8) {
-      tile.style.backgroundPosition =
-        `${(value % 3) * 50}% ${Math.floor(value / 3) * 50}%`;
-    }
+if(value !== 8) {
+
+  tile.style.backgroundImage =
+    "url('Photo Touch the head.jpeg')";
+
+  tile.style.backgroundSize = "300% 300%";
+
+  tile.style.backgroundRepeat = "no-repeat";
+
+  tile.style.backgroundPosition =
+    `${(value % 3) * 50}% ${Math.floor(value / 3) * 50}%`;
+
+}
 
     tile.addEventListener('click', () => moveTile(index));
 
