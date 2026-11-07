@@ -811,6 +811,8 @@ const heartGroup = new THREE.Group();
 
 scene.add(heartGroup);
 
+heartGroup.visible = false;
+
 // HEART SHAPE
 
 const shape = new THREE.Shape();
@@ -1039,6 +1041,8 @@ heartGroup.add(heartDust);
 const orbitGroup = new THREE.Group();
 
 scene.add(orbitGroup);
+
+orbitGroup.visible = false;
 
 const ringData = [
   {
@@ -1445,32 +1449,43 @@ let warpTime=0;
 let cinematicStarted=false;
 
 let lastTime=0;
+  
+let revealStart = 0;
+
+let revealProgress = 0;
+
+let heartRevealed = false;
 
 function startWarp() {
 
-  warp=true;
+  warp = true;
 
-  warpTime=performance.now();
+  warpTime = performance.now();
 
-  cinematicStarted=false;
+  cinematicStarted = false;
 
+  heartRevealed = false;
+
+  revealProgress = 0;
+
+  // ซ่อนหัวใจและวงแหวน
+  heartGroup.visible = false;
+  orbitGroup.visible = false;
+
+  heartGroup.scale.setScalar(0.01);
+  orbitGroup.scale.setScalar(0.01);
+
+  // กล้องเริ่มต้น
   camera.position.set(0,0,28);
 
-  streakMaterial.opacity=0;
+  camera.lookAt(0,0,0);
+
+  streakMaterial.opacity = 0;
 
   document
-    .getElementById('warp-overlay')
-    .animate(
-      [
-        {opacity:0},
-        {opacity:0.35},
-        {opacity:0}
-      ],
-      {
-        duration:2600,
-        easing:'ease-in-out'
-      }
-    );
+    .getElementById('galaxy-content')
+    .classList.remove('show');
+
 }
 
 document
@@ -1601,18 +1616,21 @@ function animate() {
 
     if(duration>=3) {
 
-      warp=false;
+      warp = false;
 
-      cinematicStarted=true;
+      cinematicStarted = true;
 
-      streakMaterial.opacity=0;
+      streakMaterial.opacity = 0;
 
-      document
-        .getElementById('galaxy-content')
-        .classList.add('show');
+  // เริ่มเปิดเผยหัวใจหลัง Warp จบ
+  heartGroup.visible = true;
+  orbitGroup.visible = true;
 
-    }
+  revealStart = performance.now();
 
+  heartRevealed = true;
+
+}
   }
 
   // CINEMATIC CAMERA MOTION
@@ -1637,7 +1655,73 @@ function animate() {
     camera.lookAt(0,0,0);
 
   }
+// ==========================
+// CINEMATIC HEART REVEAL
+// ==========================
 
+if(heartRevealed) {
+
+  const revealTime =
+    (performance.now() - revealStart) / 1000;
+
+  revealProgress = Math.min(
+    revealTime / 2.2,
+    1
+  );
+
+  // Smooth cinematic easing
+  const eased =
+    1 - Math.pow(1 - revealProgress, 4);
+
+  // หัวใจค่อย ๆ ขยาย
+  const heartScale =
+    THREE.MathUtils.lerp(
+      0.01,
+      1,
+      eased
+    );
+
+  heartGroup.scale.setScalar(
+    heartScale *
+    (1 + Math.sin(elapsed * 1.7) * 0.012)
+  );
+
+  // วงแหวนค่อย ๆ กางออก
+  orbitGroup.scale.setScalar(
+    THREE.MathUtils.lerp(
+      0.01,
+      1,
+      eased
+    )
+  );
+
+  // ค่อย ๆ เปิดเผยแสง
+  innerGlow.material.opacity =
+    0.09 * eased;
+
+  heartDust.material.opacity =
+    0.85 * eased;
+
+  orbitRings.forEach(ring => {
+    ring.material.opacity =
+      ring.userData.originalOpacity === undefined
+        ? (ring.userData.originalOpacity =
+            ring.material.opacity) * eased
+        : ring.userData.originalOpacity * eased;
+  });
+
+  // เมื่อหัวใจปรากฏสมบูรณ์
+  if(revealProgress >= 1) {
+
+    heartRevealed = false;
+
+    document
+      .getElementById('galaxy-content')
+      .classList.add('show');
+
+  }
+
+}
   // RENDER
 
   composer.render();
