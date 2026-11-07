@@ -344,6 +344,98 @@ h1 {
   .panel { padding: 23px 15px; }
 }
 
+  
+/* MEMORY POPUP */
+
+.memory-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+
+  background: rgba(5,0,15,.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: .35s ease;
+}
+
+.memory-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.memory-popup {
+  width: min(400px,100%);
+  padding: 30px 24px;
+  text-align: center;
+
+  border: 1px solid rgba(255,170,225,.5);
+  border-radius: 25px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(55,20,75,.97),
+      rgba(18,5,35,.98)
+    );
+
+  box-shadow:
+    0 0 35px rgba(226,70,190,.25),
+    inset 0 0 25px rgba(255,255,255,.04);
+
+  transform: scale(.65) translateY(35px);
+  opacity: 0;
+
+  transition:
+    transform .45s cubic-bezier(.2,.8,.2,1.2),
+    opacity .35s ease;
+}
+
+.memory-overlay.open .memory-popup {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.memory-popup .popup-icon {
+  font-size: 42px;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 12px #ff65c5);
+}
+
+.memory-popup h3 {
+  color: #ffb5dd;
+  font-size: 23px;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+.memory-popup .popup-description {
+  color: #f1dced;
+  font-size: 13px;
+  line-height: 2;
+  white-space: pre-line;
+  margin-bottom: 25px;
+}
+
+.memory-popup .popup-close {
+  padding: 11px 28px;
+  border: 1px solid #eaa4d5;
+  border-radius: 30px;
+  color: white;
+  background: linear-gradient(135deg,#963bb5,#df529e);
+  box-shadow: 0 0 20px rgba(235,75,190,.25);
+}
+
+.memory-popup .popup-close:active {
+  transform: scale(.95);
+}
+
 </style>
 </head>
 
@@ -569,6 +661,31 @@ Happy Anniversary, my love. ♡</div>
 
 <div id="hint">MADE WITH LOVE ♡</div>
 
+
+<!-- MEMORY POPUP -->
+<div class="memory-overlay" id="memory-overlay">
+
+  <div class="memory-popup">
+
+    <div class="popup-icon" id="popup-icon">♡</div>
+
+    <h3 id="popup-title">Our Beginning</h3>
+
+    <div class="popup-description"
+         id="popup-description">
+      Our story begins here.
+    </div>
+
+    <button class="popup-close"
+            onclick="closeMemory()">
+      Close ♡
+    </button>
+
+  </div>
+
+</div>
+
+  
 <!-- WEBSITE INTERACTIONS -->
 <script>
 window.showScreen = function(id) {
@@ -587,10 +704,81 @@ const memories = [
   "I promise to keep making beautiful memories with you. ♡"
 ];
 
+
+const memoryData = [
+
+  {
+    icon: "♡",
+    title: "Our Beginning",
+    description:
+      "ทุกเรื่องราวย่อมมีจุดเริ่มต้น\n\nและสำหรับเรา วันนั้นคือจุดเริ่มต้นของเรื่องราวที่แสนพิเศษ\n\nขอบคุณที่เข้ามาเป็นส่วนหนึ่งในชีวิตของกันและกัน ♡"
+  },
+
+  {
+    icon: "✦",
+    title: "My Favorite Person",
+    description:
+      "ท่ามกลางผู้คนมากมายบนโลกใบนี้\n\nเธอคือคนที่ทำให้วันธรรมดาของฉันกลายเป็นวันที่พิเศษ\n\nและยังคงเป็นคนโปรดของฉันเสมอ"
+  },
+
+  {
+    icon: "☾",
+    title: "Little Happiness",
+    description:
+      "ความสุขไม่จำเป็นต้องเป็นเรื่องใหญ่เสมอไป\n\nบางครั้งแค่การได้นั่งข้างกัน พูดคุยกัน หรือใช้เวลาเล็ก ๆ ด้วยกัน\n\nก็เพียงพอที่จะทำให้ฉันมีความสุขแล้ว"
+  },
+
+  {
+    icon: "∞",
+    title: "Forever Us",
+    description:
+      "ไม่ว่าเวลาจะผ่านไปนานแค่ไหน\n\nฉันก็ยังอยากมีเธออยู่ในทุกช่วงเวลาของชีวิต\n\nขอให้เรายังคงจับมือกันและเติบโตไปด้วยกันนะ ♡"
+  },
+
+  {
+    icon: "🌷",
+    title: "My Promise",
+    description:
+      "ฉันสัญญาว่าจะดูแลความรักของเราให้ดีที่สุด\n\nอาจไม่ได้เป็นคนที่สมบูรณ์แบบในทุกวัน\n\nแต่จะพยายามเป็นคนที่ทำให้เธอยิ้มได้เสมอ\n\nI love you, always. ♡"
+  }
+
+];
+
 window.showMemory = function(i) {
-  document.getElementById('memory-message').textContent =
-    memories[i];
+
+  const data = memoryData[i];
+
+  document.getElementById('popup-icon').textContent =
+    data.icon;
+
+  document.getElementById('popup-title').textContent =
+    data.title;
+
+  document.getElementById('popup-description').textContent =
+    data.description;
+
+  document.getElementById('memory-overlay')
+    .classList.add('open');
+
 };
+
+window.closeMemory = function() {
+
+  document.getElementById('memory-overlay')
+    .classList.remove('open');
+
+};
+
+// Close when tapping outside the popup
+document.getElementById('memory-overlay')
+  .addEventListener('click', function(e) {
+
+    if(e.target === this) {
+      closeMemory();
+    }
+
+  });
+
 
 let giftOpened = false;
 
