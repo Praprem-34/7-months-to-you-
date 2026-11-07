@@ -2,37 +2,51 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#080312">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070310">
+
 <title>For You — Happy Anniversary ♡</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+<!-- THREE.JS -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+  }
+}
+</script>
+
 <style>
 :root {
-  --pink: #ff5ca8;
-  --pink2: #ffb4d5;
+  --pink: #ff69ad;
+  --pink-light: #ffc0df;
   --violet: #a45cff;
-  --ink: #080312;
+  --bg: #070310;
 }
 
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-body {
-  background: var(--ink);
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
   color: white;
   font-family: 'Prompt', sans-serif;
-  overflow: hidden;
 }
 
 button {
   font-family: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #universe3d {
@@ -50,14 +64,13 @@ button {
 .vignette {
   position: fixed;
   inset: 0;
-  pointer-events: none;
   z-index: 1;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 30%,
-    rgba(4,0,15,.45) 75%,
-    #05000d 120%
-  );
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center,
+      transparent 20%,
+      rgba(5,0,15,.25) 65%,
+      rgba(3,0,10,.85) 120%);
 }
 
 .screen {
@@ -67,12 +80,12 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 24px;
+  padding: 22px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 1s, visibility 1s;
+  transition: opacity 1s ease, visibility 1s;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .screen.active {
@@ -81,47 +94,55 @@ button {
 }
 
 .welcome-card {
-  width: min(440px, 100%);
-  padding: 42px 25px;
-  border: 1px solid rgba(255,180,230,.3);
+  width: min(440px,100%);
+  padding: 45px 25px;
+  text-align: center;
+  border: 1px solid rgba(255,180,230,.35);
   border-radius: 28px;
-  background: rgba(20,8,36,.68);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 0 60px rgba(207,52,255,.2);
+  background: rgba(19,7,35,.76);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 35px rgba(226,60,190,.16),
+    inset 0 0 30px rgba(255,255,255,.025);
 }
 
 .eyebrow {
-  color: #e6a6ff;
-  letter-spacing: 5px;
+  color: #e9aaff;
   font-size: 11px;
+  letter-spacing: 5px;
   margin-bottom: 20px;
 }
 
 h1 {
-  font-size: clamp(30px, 8vw, 54px);
+  font-size: clamp(32px,8vw,55px);
   font-weight: 500;
-  line-height: 1.35;
-  background: linear-gradient(90deg,#ff8ac6,#e4aaff,#ffb7df);
+  line-height: 1.3;
+  background: linear-gradient(
+    100deg,
+    #ff8ac6,
+    #e7b2ff,
+    #ffb5d9
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 30px rgba(255,100,210,.2);
 }
 
 .subtitle {
-  color: #d9c5e8;
+  color: #e0c8ed;
   font-size: 13px;
-  margin: 18px 0 30px;
+  margin: 20px 0 30px;
 }
 
 .primary-btn {
-  border: 1px solid rgba(255,190,240,.65);
-  background: linear-gradient(135deg,#a832a7,#e44e9d);
+  padding: 13px 26px;
   color: white;
-  padding: 13px 27px;
+  font-size: 13px;
+  border: 1px solid rgba(255,190,235,.65);
   border-radius: 50px;
-  font-size: 14px;
-  box-shadow: 0 0 30px rgba(239,70,190,.4);
+  background: linear-gradient(135deg,#9d38b4,#ed559e);
+  box-shadow: 0 0 28px rgba(230,70,190,.35);
   transition: .3s;
 }
 
@@ -130,16 +151,17 @@ h1 {
 }
 
 .primary-btn:hover {
-  box-shadow: 0 0 40px rgba(255,80,210,.7);
+  box-shadow: 0 0 40px rgba(255,80,210,.65);
 }
 
 #galaxy-screen {
   align-items: flex-end;
-  padding-bottom: 10vh;
+  padding-bottom: 9vh;
 }
 
 .galaxy-content {
   width: 100%;
+  text-align: center;
   opacity: 0;
   transform: translateY(25px);
   transition: 1.5s;
@@ -151,42 +173,45 @@ h1 {
 }
 
 .galaxy-content h1 {
-  font-size: clamp(30px, 8vw, 58px);
-  text-shadow: 0 0 30px #d43cff;
+  font-size: clamp(30px,8vw,58px);
+  text-shadow: 0 0 25px rgba(255,70,210,.65);
 }
 
 .galaxy-content p {
-  color: #e9c7ef;
   font-size: 13px;
+  color: #efd5f8;
   margin: 12px 0 25px;
 }
 
 .panel {
-  width: min(520px, 100%);
+  width: min(510px,100%);
   max-height: 85vh;
   overflow-y: auto;
   padding: 28px 20px;
-  border: 1px solid rgba(255,170,230,.3);
+  text-align: center;
+  border: 1px solid rgba(255,175,225,.3);
   border-radius: 25px;
-  background: rgba(16,5,32,.88);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 0 50px rgba(186,65,255,.2);
+  background: rgba(15,5,30,.91);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 0 50px rgba(177,65,255,.2);
 }
 
 .panel h2 {
-  color: #ffb0d9;
-  font-size: 27px;
+  color: #ffb4d8;
+  font-size: 26px;
   font-weight: 500;
   margin-bottom: 20px;
 }
 
 .back-btn {
-  margin-top: 24px;
+  margin: 20px 5px 0;
+  padding: 10px 20px;
   color: #eac9ff;
   border: 1px solid rgba(255,255,255,.3);
-  background: transparent;
   border-radius: 30px;
-  padding: 10px 23px;
+  background: transparent;
+  font-size: 12px;
 }
 
 .memory-grid {
@@ -196,77 +221,75 @@ h1 {
 }
 
 .memory-card {
-  min-height: 115px;
-  padding: 17px 10px;
+  min-height: 110px;
+  padding: 15px 8px;
+  border: 1px solid rgba(255,180,230,.3);
   border-radius: 17px;
-  border: 1px solid rgba(255,180,230,.35);
-  background: linear-gradient(145deg,rgba(174,70,170,.25),rgba(74,35,115,.3));
+  background: linear-gradient(145deg,
+    rgba(174,70,170,.25),
+    rgba(74,35,115,.3));
   color: white;
-  font-size: 13px;
-  transition: .3s;
-}
-
-.memory-card:active {
-  transform: scale(.96);
+  font-size: 12px;
 }
 
 .memory-card span {
   display: block;
   color: #ffb4d5;
-  font-size: 23px;
-  margin-bottom: 7px;
+  font-size: 24px;
+  margin-bottom: 8px;
 }
 
 #memory-message {
   margin-top: 20px;
+  min-height: 55px;
   color: #ffe1f0;
+  font-size: 13px;
   line-height: 1.9;
-  font-size: 14px;
-  min-height: 50px;
 }
 
 .gift {
-  font-size: 100px;
+  font-size: 95px;
   cursor: pointer;
   animation: float 2.5s ease-in-out infinite;
   filter: drop-shadow(0 0 20px #ff54c4);
 }
 
 @keyframes float {
-  50% { transform: translateY(-15px) rotate(4deg); }
+  50% { transform: translateY(-13px) rotate(4deg); }
 }
 
 #gift-message {
-  margin-top: 20px;
   color: #ffd6eb;
-  line-height: 1.8;
+  font-size: 13px;
+  line-height: 1.9;
+  margin-top: 20px;
 }
 
 .photo {
   width: 100%;
-  max-width: 310px;
+  max-width: 300px;
   aspect-ratio: 4/5;
   object-fit: cover;
   padding: 10px 10px 38px;
   background: white;
-  border-radius: 4px;
+  border-radius: 3px;
   box-shadow: 0 10px 40px #0008;
   transform: rotate(-2deg);
 }
 
 .photo-caption {
   color: #f5c6e5;
-  margin-top: 22px;
   font-size: 13px;
+  margin-top: 20px;
 }
 
 #puzzle {
-  width: min(300px, 85vw);
+  width: min(300px,80vw);
   aspect-ratio: 1;
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 3px;
-  margin: 15px auto;
+  margin: 18px auto;
 }
 
 .tile {
@@ -274,18 +297,17 @@ h1 {
   background-size: 300% 300%;
   border-radius: 5px;
   border: 1px solid rgba(255,255,255,.2);
-  cursor: pointer;
 }
 
 .tile.empty {
-  background: rgba(255,255,255,.06);
+  background: rgba(255,255,255,.04);
   border: 1px dashed #b78acb;
 }
 
 .letter {
   text-align: left;
   color: #f6dcef;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 2;
   white-space: pre-line;
 }
@@ -302,48 +324,27 @@ h1 {
   z-index: 5;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(circle,transparent 0%,#07000e 100%);
-}
-
-#warp-overlay.active {
-  animation: warpFlash 2.7s ease-in-out;
-}
-
-@keyframes warpFlash {
-  0% { opacity: 0; }
-  25% { opacity: .3; }
-  70% { opacity: .7; }
-  100% { opacity: 0; }
+  background: radial-gradient(circle,#16051f 0%,#020008 100%);
 }
 
 #hint {
   position: fixed;
-  bottom: 18px;
+  z-index: 2;
+  bottom: 16px;
   left: 0;
   right: 0;
   text-align: center;
-  color: rgba(255,220,250,.6);
+  color: rgba(255,220,250,.45);
   font-size: 10px;
-  letter-spacing: 2px;
-  z-index: 2;
+  letter-spacing: 3px;
   pointer-events: none;
 }
 
-@media (max-width:600px) {
+@media(max-width:600px) {
   .panel { padding: 23px 15px; }
-  .memory-card { min-height: 105px; }
 }
-</style>
 
-<!-- Three.js -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
-  }
-}
-</script>
+</style>
 </head>
 
 <body>
@@ -356,10 +357,15 @@ h1 {
 <section id="welcome" class="screen active">
   <div class="welcome-card">
     <div class="eyebrow">A SPECIAL UNIVERSE</div>
-    <h1>Happy<br>Anniversary ♡</h1>
+
+    <h1>
+      Happy<br>Anniversary ♡
+    </h1>
+
     <p class="subtitle">
       I made this little universe just for you.
     </p>
+
     <button class="primary-btn" id="start">
       Enter Our Universe ♡
     </button>
@@ -369,119 +375,166 @@ h1 {
 <!-- GALAXY -->
 <section id="galaxy-screen" class="screen">
   <div class="galaxy-content" id="galaxy-content">
+
     <div class="eyebrow">OUR UNIVERSE</div>
+
     <h1>LOVE U FOREVER</h1>
+
     <p>You are my favorite universe.</p>
-    <button class="primary-btn" onclick="showScreen('memories')">
+
+    <button class="primary-btn"
+      onclick="showScreen('memories')">
       Explore Our Memories ♡
     </button>
+
   </div>
 </section>
 
 <!-- MEMORIES -->
 <section id="memories" class="screen">
   <div class="panel">
+
     <div class="eyebrow">OUR LITTLE MOMENTS</div>
     <h2>Our Memories ♡</h2>
 
     <div class="memory-grid">
+
       <button class="memory-card" onclick="showMemory(0)">
         <span>♡</span>Our Beginning
       </button>
+
       <button class="memory-card" onclick="showMemory(1)">
         <span>✦</span>My Favorite Person
       </button>
+
       <button class="memory-card" onclick="showMemory(2)">
         <span>☾</span>Little Happiness
       </button>
+
       <button class="memory-card" onclick="showMemory(3)">
         <span>∞</span>Forever Us
       </button>
+
       <button class="memory-card" onclick="showMemory(4)">
         <span>🌷</span>My Promise
       </button>
+
     </div>
 
     <div id="memory-message">
       Choose a memory card to open ♡
     </div>
 
-    <button class="back-btn" onclick="showScreen('galaxy-screen')">
+    <button class="back-btn"
+      onclick="showScreen('galaxy-screen')">
       Back to Galaxy
     </button>
-    <button class="primary-btn" onclick="showScreen('gift')">
+
+    <button class="primary-btn"
+      onclick="showScreen('gift')">
       Next ♡
     </button>
+
   </div>
 </section>
 
 <!-- GIFT -->
 <section id="gift" class="screen">
   <div class="panel">
+
     <div class="eyebrow">A LITTLE SURPRISE</div>
     <h2>Something for You</h2>
+
     <div class="gift" onclick="openGift()">🎁</div>
+
     <div id="gift-message">
       Tap the gift box to open it ♡
     </div>
-    <button class="back-btn" onclick="showScreen('memories')">
+
+    <button class="back-btn"
+      onclick="showScreen('memories')">
       Back
     </button>
-    <button class="primary-btn" onclick="showScreen('photo')">
+
+    <button class="primary-btn"
+      onclick="showScreen('photo')">
       Next ♡
     </button>
+
   </div>
 </section>
 
 <!-- PHOTO -->
 <section id="photo" class="screen">
   <div class="panel">
+
     <div class="eyebrow">YOU & ME</div>
     <h2>Our Favorite Photo</h2>
-    <img class="photo" src="photo1.jpg"
-         alt="Our memory"
-         onerror="this.style.display='none'">
+
+    <img class="photo"
+      src="photo1.jpg"
+      alt="Our memory"
+      onerror="this.style.display='none'">
+
     <div class="photo-caption">
       Every moment with you is special.
     </div>
-    <button class="back-btn" onclick="showScreen('gift')">
+
+    <button class="back-btn"
+      onclick="showScreen('gift')">
       Back
     </button>
-    <button class="primary-btn" onclick="showScreen('puzzle-screen')">
+
+    <button class="primary-btn"
+      onclick="showScreen('puzzle-screen')">
       Play Puzzle ♡
     </button>
+
   </div>
 </section>
 
 <!-- PUZZLE -->
 <section id="puzzle-screen" class="screen">
   <div class="panel">
+
     <div class="eyebrow">A LITTLE GAME</div>
     <h2>Our Love Puzzle</h2>
+
     <p style="font-size:12px;color:#ddc6eb">
       Tap a tile next to the empty space to move it.
     </p>
+
     <div id="puzzle"></div>
-    <p id="puzzle-status" style="color:#ffc0df;font-size:13px">
+
+    <p id="puzzle-status"
+      style="color:#ffc0df;font-size:13px">
       Put our picture back together ♡
     </p>
+
     <button class="back-btn" onclick="shufflePuzzle()">
       Shuffle
     </button>
-    <button class="primary-btn" onclick="showScreen('photo')">
+
+    <button class="primary-btn"
+      onclick="showScreen('photo')">
       Back
     </button>
-    <button class="primary-btn" onclick="showScreen('letter')">
+
+    <button class="primary-btn"
+      onclick="showScreen('letter')">
       Finish ♡
     </button>
+
   </div>
 </section>
 
 <!-- LETTER -->
 <section id="letter" class="screen">
   <div class="panel">
+
     <div class="eyebrow">JUST FOR YOU</div>
     <h2>My Love Letter</h2>
+
     <div class="letter">To my favorite person,
 
 Thank you for being part of my life.
@@ -496,27 +549,35 @@ I hope we can create many more
 beautiful memories together.
 
 Happy Anniversary, my love. ♡</div>
+
     <div class="letter-sign">
       With all my love ♡
     </div>
-    <button class="back-btn" onclick="showScreen('puzzle-screen')">
+
+    <button class="back-btn"
+      onclick="showScreen('puzzle-screen')">
       Back
     </button>
-    <button class="primary-btn" onclick="showScreen('galaxy-screen')">
+
+    <button class="primary-btn"
+      onclick="showScreen('galaxy-screen')">
       Return to Our Universe
     </button>
+
   </div>
 </section>
 
 <div id="hint">MADE WITH LOVE ♡</div>
 
+<!-- WEBSITE INTERACTIONS -->
 <script>
-function showScreen(id) {
+window.showScreen = function(id) {
   document.querySelectorAll('.screen').forEach(s => {
     s.classList.remove('active');
   });
+
   document.getElementById(id).classList.add('active');
-}
+};
 
 const memories = [
   "The day our story began became one of my favorite memories. ♡",
@@ -526,19 +587,23 @@ const memories = [
   "I promise to keep making beautiful memories with you. ♡"
 ];
 
-function showMemory(i) {
-  document.getElementById('memory-message').textContent = memories[i];
-}
+window.showMemory = function(i) {
+  document.getElementById('memory-message').textContent =
+    memories[i];
+};
 
 let giftOpened = false;
 
-function openGift() {
-  if (giftOpened) return;
+window.openGift = function() {
+  if(giftOpened) return;
+
   giftOpened = true;
+
   document.querySelector('.gift').textContent = '💝';
+
   document.getElementById('gift-message').textContent =
     'My greatest gift is having you in my life. I love you endlessly. ♡';
-}
+};
 
 // PUZZLE
 let puzzleTiles = [];
@@ -549,18 +614,21 @@ function renderPuzzle() {
 
   puzzleTiles.forEach((value,index) => {
     const tile = document.createElement('div');
-    tile.className = 'tile' + (value === 8 ? ' empty' : '');
 
-    if (value !== 8) {
+    tile.className =
+      'tile' + (value === 8 ? ' empty' : '');
+
+    if(value !== 8) {
       tile.style.backgroundPosition =
         `${(value % 3) * 50}% ${Math.floor(value / 3) * 50}%`;
     }
 
     tile.addEventListener('click', () => moveTile(index));
+
     puzzle.appendChild(tile);
   });
 
-  if (puzzleTiles.every((v,i) => v === i)) {
+  if(puzzleTiles.every((v,i) => v === i)) {
     document.getElementById('puzzle-status').textContent =
       'You did it! Our picture is complete. ♡';
   }
@@ -568,34 +636,36 @@ function renderPuzzle() {
 
 function moveTile(index) {
   const empty = puzzleTiles.indexOf(8);
+
   const distance =
-    Math.abs(Math.floor(index / 3) - Math.floor(empty / 3)) +
-    Math.abs(index % 3 - empty % 3);
+    Math.abs(Math.floor(index/3)-Math.floor(empty/3)) +
+    Math.abs(index%3-empty%3);
 
-  if (distance !== 1) return;
+  if(distance !== 1) return;
 
-  [puzzleTiles[index], puzzleTiles[empty]] =
-    [puzzleTiles[empty], puzzleTiles[index]];
+  [puzzleTiles[index],puzzleTiles[empty]] =
+    [puzzleTiles[empty],puzzleTiles[index]];
 
   renderPuzzle();
 }
 
-function shufflePuzzle() {
+window.shufflePuzzle = function() {
   puzzleTiles = [0,1,2,3,4,5,6,7,8];
 
-  for (let i = 0; i < 150; i++) {
+  for(let i=0;i<150;i++) {
     const empty = puzzleTiles.indexOf(8);
-    const row = Math.floor(empty / 3);
-    const col = empty % 3;
+    const row = Math.floor(empty/3);
+    const col = empty%3;
 
     const choices = [
-      ...(row > 0 ? [empty-3] : []),
-      ...(row < 2 ? [empty+3] : []),
-      ...(col > 0 ? [empty-1] : []),
-      ...(col < 2 ? [empty+1] : [])
+      ...(row>0 ? [empty-3] : []),
+      ...(row<2 ? [empty+3] : []),
+      ...(col>0 ? [empty-1] : []),
+      ...(col<2 ? [empty+1] : [])
     ];
 
-    const next = choices[Math.floor(Math.random()*choices.length)];
+    const next =
+      choices[Math.floor(Math.random()*choices.length)];
 
     [puzzleTiles[empty],puzzleTiles[next]] =
       [puzzleTiles[next],puzzleTiles[empty]];
@@ -605,407 +675,1011 @@ function shufflePuzzle() {
     'Put our picture back together ♡';
 
   renderPuzzle();
-}
+};
 
 shufflePuzzle();
 </script>
 
-<!-- 3D ENGINE -->
+<!-- THREE.JS 3D ENGINE -->
 <script type="module">
-import * as THREE from 'three';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-const container = document.getElementById('universe3d');
+import * as THREE from 'three';
+
+import {
+  EffectComposer
+} from 'three/addons/postprocessing/EffectComposer.js';
+
+import {
+  RenderPass
+} from 'three/addons/postprocessing/RenderPass.js';
+
+import {
+  UnrealBloomPass
+} from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+import {
+  OutputPass
+} from 'three/addons/postprocessing/OutputPass.js';
+
+// ==========================
+// SCENE
+// ==========================
+
+const container =
+  document.getElementById('universe3d');
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x05000d);
-scene.fog = new THREE.FogExp2(0x080015,0.012);
+
+scene.background =
+  new THREE.Color(0x05000d);
+
+scene.fog =
+  new THREE.FogExp2(0x080015,0.008);
 
 const camera = new THREE.PerspectiveCamera(
-  55,
+  50,
   window.innerWidth/window.innerHeight,
   0.1,
   300
 );
 
-camera.position.set(0,0,13);
+camera.position.set(0,0,25);
+
+// RENDERER
 
 const renderer = new THREE.WebGLRenderer({
-  antialias: true,
-  alpha: false,
-  powerPreference: 'high-performance'
+  antialias:true,
+  alpha:false,
+  powerPreference:'high-performance'
 });
 
-renderer.setSize(window.innerWidth,window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.75));
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.35;
+renderer.setSize(
+  window.innerWidth,
+  window.innerHeight
+);
+
+renderer.setPixelRatio(
+  Math.min(window.devicePixelRatio,1.5)
+);
+
+renderer.outputColorSpace =
+  THREE.SRGBColorSpace;
+
+renderer.toneMapping =
+  THREE.ACESFilmicToneMapping;
+
+renderer.toneMappingExposure = 1.1;
+
 container.appendChild(renderer.domElement);
 
-// BLOOM
+// POST PROCESSING
+
 const composer = new EffectComposer(renderer);
+
 composer.addPass(new RenderPass(scene,camera));
 
 const bloom = new UnrealBloomPass(
-  new THREE.Vector2(window.innerWidth,window.innerHeight),
-  1.5,
-  0.55,
-  0.12
+  new THREE.Vector2(
+    window.innerWidth,
+    window.innerHeight
+  ),
+  0.85,
+  0.65,
+  0.22
 );
 
 composer.addPass(bloom);
+composer.addPass(new OutputPass());
 
-// LIGHTS
-scene.add(new THREE.AmbientLight(0x9c6bba,1.5));
+// ==========================
+// LIGHTING
+// ==========================
 
-const pinkLight = new THREE.PointLight(0xff36b5,90,40);
-pinkLight.position.set(-4,3,5);
+scene.add(
+  new THREE.AmbientLight(0x9c78c9,1.1)
+);
+
+const pinkLight =
+  new THREE.PointLight(0xff287f,65,35);
+
+pinkLight.position.set(-4,4,6);
 scene.add(pinkLight);
 
-const violetLight = new THREE.PointLight(0x743dff,110,40);
-violetLight.position.set(4,-3,4);
-scene.add(violetLight);
+const purpleLight =
+  new THREE.PointLight(0x843dff,80,40);
 
-const frontLight = new THREE.PointLight(0xffffff,35,30);
-frontLight.position.set(0,2,8);
+purpleLight.position.set(5,-3,-2);
+scene.add(purpleLight);
+
+const frontLight =
+  new THREE.PointLight(0xffffff,25,30);
+
+frontLight.position.set(0,2,10);
 scene.add(frontLight);
 
+const backLight =
+  new THREE.PointLight(0xff3bb7,65,30);
+
+backLight.position.set(0,3,-5);
+scene.add(backLight);
+
+// ==========================
+// HEART GROUP
+// ==========================
+
+const heartGroup = new THREE.Group();
+
+scene.add(heartGroup);
+
 // HEART SHAPE
-const heartShape = new THREE.Shape();
 
-const points = [];
+const shape = new THREE.Shape();
 
-for (let i=0;i<=160;i++) {
-  const t = i/160*Math.PI*2;
+const heartPoints = [];
 
-  const x = 16*Math.pow(Math.sin(t),3);
-  const y = 13*Math.cos(t)
+for(let i=0;i<=240;i++) {
+
+  const t =
+    i/240*Math.PI*2;
+
+  const x =
+    16*Math.pow(Math.sin(t),3);
+
+  const y =
+    13*Math.cos(t)
     -5*Math.cos(2*t)
     -2*Math.cos(3*t)
     -Math.cos(4*t);
 
-  points.push(new THREE.Vector2(x*0.12,y*0.12));
+  heartPoints.push(
+    new THREE.Vector2(x*0.145,y*0.145)
+  );
 }
 
-heartShape.moveTo(points[0].x,points[0].y);
+shape.moveTo(
+  heartPoints[0].x,
+  heartPoints[0].y
+);
 
-for (let i=1;i<points.length;i++) {
-  heartShape.lineTo(points[i].x,points[i].y);
+for(let i=1;i<heartPoints.length;i++) {
+  shape.lineTo(
+    heartPoints[i].x,
+    heartPoints[i].y
+  );
 }
 
-heartShape.closePath();
+shape.closePath();
 
-const heartGeometry = new THREE.ExtrudeGeometry(heartShape,{
-  depth:1.35,
-  bevelEnabled:true,
-  bevelSegments:5,
-  steps:2,
-  bevelSize:0.16,
-  bevelThickness:0.18,
-  curveSegments:16
-});
+// EXTRUDE GEOMETRY
+
+const heartGeometry =
+  new THREE.ExtrudeGeometry(shape,{
+
+    depth:1.35,
+
+    bevelEnabled:true,
+
+    bevelSegments:8,
+
+    steps:2,
+
+    bevelSize:0.19,
+
+    bevelThickness:0.2,
+
+    curveSegments:24
+
+  });
 
 heartGeometry.computeBoundingBox();
 
 const center = new THREE.Vector3();
+
 heartGeometry.boundingBox.getCenter(center);
-heartGeometry.translate(-center.x,-center.y,-center.z);
 
-const heartMaterial = new THREE.MeshPhysicalMaterial({
-  color:0xff348f,
-  metalness:0.28,
-  roughness:0.19,
-  clearcoat:1,
-  clearcoatRoughness:0.1,
-  emissive:0x7c073d,
-  emissiveIntensity:0.5
-});
+heartGeometry.translate(
+  -center.x,
+  -center.y,
+  -center.z
+);
 
-const heart = new THREE.Mesh(heartGeometry,heartMaterial);
-scene.add(heart);
+// HEART MATERIAL
 
-// PARTICLE HEART
-const heartParticles = new THREE.BufferGeometry();
-const particlePositions = [];
-const particleColors = [];
+const heartMaterial =
+  new THREE.MeshPhysicalMaterial({
 
-const particleCount = 6500;
+    color:0xe92d78,
 
-for(let i=0;i<particleCount;i++) {
+    metalness:0.22,
+
+    roughness:0.19,
+
+    clearcoat:1,
+
+    clearcoatRoughness:0.08,
+
+    reflectivity:0.9,
+
+    emissive:0x650b36,
+
+    emissiveIntensity:0.35
+
+  });
+
+const heart =
+  new THREE.Mesh(
+    heartGeometry,
+    heartMaterial
+  );
+
+heartGroup.add(heart);
+
+// INNER GLOW
+
+const innerGlowGeometry =
+  new THREE.SphereGeometry(1,32,32);
+
+const innerGlowMaterial =
+  new THREE.MeshBasicMaterial({
+
+    color:0xff4a9c,
+
+    transparent:true,
+
+    opacity:0.09,
+
+    blending:THREE.AdditiveBlending,
+
+    depthWrite:false
+
+  });
+
+const innerGlow =
+  new THREE.Mesh(
+    innerGlowGeometry,
+    innerGlowMaterial
+  );
+
+innerGlow.scale.set(1.5,1.4,0.8);
+
+heartGroup.add(innerGlow);
+
+// ==========================
+// HEART SURFACE PARTICLES
+// ==========================
+
+const heartDustGeometry =
+  new THREE.BufferGeometry();
+
+const dustPositions = [];
+
+const dustColors = [];
+
+const dustCount = 2800;
+
+for(let i=0;i<dustCount;i++) {
+
   const t = Math.random()*Math.PI*2;
+
   const r = Math.sqrt(Math.random());
 
-  const x = 16*Math.pow(Math.sin(t),3)*0.12*r;
+  const x =
+    16*Math.pow(Math.sin(t),3)*0.145*r;
+
   const y = (
     13*Math.cos(t)
     -5*Math.cos(2*t)
     -2*Math.cos(3*t)
     -Math.cos(4*t)
-  )*0.12*r;
+  )*0.145*r;
 
-  const z = (Math.random()-0.5)*1.5;
+  const z =
+    (Math.random()-0.5)*1.5;
 
-  particlePositions.push(x,y-0.15,z);
+  dustPositions.push(x,y,z);
 
   const color = new THREE.Color();
+
   color.setHSL(
-    0.87 + Math.random()*0.09,
-    0.8,
-    0.55 + Math.random()*0.35
+    0.91+Math.random()*0.08,
+    0.85,
+    0.65+Math.random()*0.3
   );
 
-  particleColors.push(color.r,color.g,color.b);
+  dustColors.push(
+    color.r,
+    color.g,
+    color.b
+  );
 }
 
-heartParticles.setAttribute(
+heartDustGeometry.setAttribute(
   'position',
-  new THREE.Float32BufferAttribute(particlePositions,3)
+  new THREE.Float32BufferAttribute(
+    dustPositions,3
+  )
 );
 
-heartParticles.setAttribute(
+heartDustGeometry.setAttribute(
   'color',
-  new THREE.Float32BufferAttribute(particleColors,3)
+  new THREE.Float32BufferAttribute(
+    dustColors,3
+  )
 );
 
-const particleMaterial = new THREE.PointsMaterial({
-  size:0.035,
-  vertexColors:true,
-  transparent:true,
-  opacity:0.95,
-  blending:THREE.AdditiveBlending,
-  depthWrite:false
-});
+const dustMaterial =
+  new THREE.PointsMaterial({
 
-const heartDust = new THREE.Points(heartParticles,particleMaterial);
-heart.add(heartDust);
+    size:0.022,
 
-// GALAXY RINGS
-const rings = [];
-
-for(let ring=0;ring<4;ring++) {
-  const positions = [];
-  const colors = [];
-
-  const count = 1800;
-
-  for(let i=0;i<count;i++) {
-    const angle = Math.random()*Math.PI*2;
-    const radius = 2.2 + Math.random()*2.5 + ring*0.25;
-
-    const x = Math.cos(angle)*radius;
-    const y = Math.sin(angle)*radius*0.34;
-    const z = (Math.random()-0.5)*0.35;
-
-    positions.push(x,y,z);
-
-    const c = new THREE.Color();
-    c.setHSL(
-      ring%2===0 ? 0.86 : 0.73,
-      0.85,
-      0.5+Math.random()*0.35
-    );
-
-    colors.push(c.r,c.g,c.b);
-  }
-
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute(
-    'position',
-    new THREE.Float32BufferAttribute(positions,3)
-  );
-  geometry.setAttribute(
-    'color',
-    new THREE.Float32BufferAttribute(colors,3)
-  );
-
-  const material = new THREE.PointsMaterial({
-    size:0.035,
     vertexColors:true,
+
     transparent:true,
+
     opacity:0.85,
+
     blending:THREE.AdditiveBlending,
+
     depthWrite:false
+
   });
 
-  const ringPoints = new THREE.Points(geometry,material);
-  ringPoints.rotation.x = 0.35+ring*0.2;
-  ringPoints.rotation.y = ring*0.17;
+const heartDust =
+  new THREE.Points(
+    heartDustGeometry,
+    dustMaterial
+  );
 
-  scene.add(ringPoints);
-  rings.push(ringPoints);
+heartGroup.add(heartDust);
+
+// ==========================
+// ORBITAL RINGS
+// ==========================
+
+const orbitGroup = new THREE.Group();
+
+scene.add(orbitGroup);
+
+const ringData = [
+  {
+    radius:3.9,
+    tube:0.025,
+    color:0xff6bc4,
+    opacity:0.9,
+    x:1.05,
+    y:0.25,
+    z:0.25
+  },
+  {
+    radius:4.5,
+    tube:0.018,
+    color:0xa76aff,
+    opacity:0.75,
+    x:1.38,
+    y:-0.4,
+    z:0.7
+  },
+  {
+    radius:3.5,
+    tube:0.012,
+    color:0xffb2e4,
+    opacity:0.8,
+    x:0.7,
+    y:0.6,
+    z:-0.3
+  },
+  {
+    radius:5.0,
+    tube:0.015,
+    color:0x8c55ff,
+    opacity:0.65,
+    x:1.2,
+    y:0.8,
+    z:0.1
+  }
+];
+
+const orbitRings = [];
+
+ringData.forEach((data,index)=>{
+
+  const geometry =
+    new THREE.TorusGeometry(
+      data.radius,
+      data.tube,
+      12,
+      180
+    );
+
+  const material =
+    new THREE.MeshStandardMaterial({
+
+      color:data.color,
+
+      emissive:data.color,
+
+      emissiveIntensity:1.1,
+
+      metalness:0.65,
+
+      roughness:0.25,
+
+      transparent:true,
+
+      opacity:data.opacity
+
+    });
+
+  const ring =
+    new THREE.Mesh(
+      geometry,
+      material
+    );
+
+  ring.scale.y = 0.36;
+
+  ring.rotation.set(
+    data.x,
+    data.y,
+    data.z
+  );
+
+  ring.userData.speed =
+    index%2===0 ? 1 : -0.7;
+
+  orbitGroup.add(ring);
+
+  orbitRings.push(ring);
+
+  // OUTER GLOW RING
+
+  const glowGeometry =
+    new THREE.TorusGeometry(
+      data.radius,
+      data.tube*2.8,
+      8,
+      180
+    );
+
+  const glowMaterial =
+    new THREE.MeshBasicMaterial({
+
+      color:data.color,
+
+      transparent:true,
+
+      opacity:0.12,
+
+      blending:THREE.AdditiveBlending,
+
+      depthWrite:false
+
+    });
+
+  const glowRing =
+    new THREE.Mesh(
+      glowGeometry,
+      glowMaterial
+    );
+
+  glowRing.scale.y = 0.36;
+
+  glowRing.rotation.copy(ring.rotation);
+
+  orbitGroup.add(glowRing);
+
+});
+
+// ==========================
+// ORBITAL PLANETS
+// ==========================
+
+const planets = [];
+
+for(let i=0;i<5;i++) {
+
+  const planetGeometry =
+    new THREE.SphereGeometry(
+      0.065+Math.random()*0.06,
+      24,
+      24
+    );
+
+  const planetMaterial =
+    new THREE.MeshStandardMaterial({
+
+      color:i%2===0 ? 0xffa9e3 : 0x9c6cff,
+
+      emissive:i%2===0 ? 0xff47ba : 0x713bff,
+
+      emissiveIntensity:1.8,
+
+      metalness:0.5,
+
+      roughness:0.2
+
+    });
+
+  const planet =
+    new THREE.Mesh(
+      planetGeometry,
+      planetMaterial
+    );
+
+  orbitGroup.add(planet);
+
+  planets.push({
+
+    mesh:planet,
+
+    angle:Math.random()*Math.PI*2,
+
+    radius:3.9+Math.random()*1.1,
+
+    speed:0.2+Math.random()*0.25,
+
+    phase:Math.random()*Math.PI*2
+
+  });
+
 }
 
-// STARS
-const starGeometry = new THREE.BufferGeometry();
+// ==========================
+// SPACE STARS
+// ==========================
+
+const starGeometry =
+  new THREE.BufferGeometry();
+
 const starPositions = [];
 
-const starCount = 5500;
+const starCount = 4000;
 
 for(let i=0;i<starCount;i++) {
+
   starPositions.push(
+
     (Math.random()-0.5)*100,
-    (Math.random()-0.5)*70,
-    (Math.random()-0.5)*110-20
+
+    (Math.random()-0.5)*75,
+
+    (Math.random()-0.5)*120-15
+
   );
+
 }
 
 starGeometry.setAttribute(
   'position',
-  new THREE.Float32BufferAttribute(starPositions,3)
+  new THREE.Float32BufferAttribute(
+    starPositions,3
+  )
 );
 
-const starMaterial = new THREE.PointsMaterial({
-  color:0xffffff,
-  size:0.075,
-  transparent:true,
-  opacity:0.85,
-  sizeAttenuation:true
-});
+const starMaterial =
+  new THREE.PointsMaterial({
 
-const stars = new THREE.Points(starGeometry,starMaterial);
-scene.add(stars);
+    color:0xffffff,
 
-// NEBULA GLOW
-function makeGlow(color,size,opacity) {
-  const sprite = new THREE.Sprite(
-    new THREE.SpriteMaterial({
-      map:createGlowTexture(),
-      color:color,
-      transparent:true,
-      opacity:opacity,
-      blending:THREE.AdditiveBlending,
-      depthWrite:false
-    })
+    size:0.065,
+
+    transparent:true,
+
+    opacity:0.8,
+
+    sizeAttenuation:true
+
+  });
+
+const stars =
+  new THREE.Points(
+    starGeometry,
+    starMaterial
   );
 
-  sprite.scale.set(size,size,1);
-  return sprite;
-}
+scene.add(stars);
+
+// ==========================
+// NEBULA GLOW
+// ==========================
 
 function createGlowTexture() {
-  const canvas = document.createElement('canvas');
+
+  const canvas =
+    document.createElement('canvas');
+
   canvas.width=128;
   canvas.height=128;
 
-  const ctx=canvas.getContext('2d');
-  const gradient=ctx.createRadialGradient(64,64,0,64,64,64);
+  const ctx =
+    canvas.getContext('2d');
 
-  gradient.addColorStop(0,'rgba(255,255,255,1)');
-  gradient.addColorStop(.2,'rgba(255,150,230,.7)');
-  gradient.addColorStop(1,'rgba(100,20,180,0)');
+  const gradient =
+    ctx.createRadialGradient(
+      64,64,0,
+      64,64,64
+    );
+
+  gradient.addColorStop(
+    0,'rgba(255,255,255,0.9)'
+  );
+
+  gradient.addColorStop(
+    0.2,'rgba(255,110,220,0.5)'
+  );
+
+  gradient.addColorStop(
+    1,'rgba(100,20,180,0)'
+  );
 
   ctx.fillStyle=gradient;
+
   ctx.fillRect(0,0,128,128);
 
   return new THREE.CanvasTexture(canvas);
 }
 
-const glow1=makeGlow(0xff2eb8,8,0.28);
-glow1.position.set(-3,1,-2);
-scene.add(glow1);
+const glowTexture =
+  createGlowTexture();
 
-const glow2=makeGlow(0x743dff,10,0.24);
-glow2.position.set(3,-2,-4);
-scene.add(glow2);
+function addNebula(color,size,x,y,z,opacity) {
 
-// WARP SYSTEM
-let warp=false;
-let warpStart=0;
-let cinematicStarted=false;
+  const sprite =
+    new THREE.Sprite(
+      new THREE.SpriteMaterial({
 
-function beginWarp() {
-  warp=true;
-  warpStart=performance.now();
-  document.getElementById('warp-overlay').classList.add('active');
+        map:glowTexture,
+
+        color:color,
+
+        transparent:true,
+
+        opacity:opacity,
+
+        blending:THREE.AdditiveBlending,
+
+        depthWrite:false
+
+      })
+    );
+
+  sprite.position.set(x,y,z);
+
+  sprite.scale.set(size,size,1);
+
+  scene.add(sprite);
+
+  return sprite;
 }
 
-document.getElementById('start').addEventListener('click',()=>{
-  showScreen('galaxy-screen');
-  beginWarp();
-});
+const nebula1 =
+  addNebula(0xff269e,12,-5,2,-8,0.24);
 
-function updateWarp(delta) {
-  if(!warp) return;
+const nebula2 =
+  addNebula(0x6b35ff,14,5,-3,-12,0.25);
 
-  const pos=starGeometry.attributes.position;
-  const speed=delta* (cinematicStarted ? 3 : 45);
+const nebula3 =
+  addNebula(0xa23aff,9,0,5,-15,0.16);
 
-  for(let i=0;i<starCount;i++) {
-    pos.array[i*3+2]+=speed;
+// ==========================
+// WARP SPEED STAR STREAKS
+// ==========================
 
-    if(pos.array[i*3+2]>13) {
-      pos.array[i*3]=(Math.random()-0.5)*100;
-      pos.array[i*3+1]=(Math.random()-0.5)*70;
-      pos.array[i*3+2]=-100;
-    }
-  }
+const streakCount = 500;
 
-  pos.needsUpdate=true;
+const streakPositions =
+  new Float32Array(streakCount*6);
 
-  const elapsed=performance.now()-warpStart;
+const streakGeometry =
+  new THREE.BufferGeometry();
 
-  if(elapsed>2600) {
-    warp=false;
-    cinematicStarted=true;
+streakGeometry.setAttribute(
+  'position',
+  new THREE.BufferAttribute(
+    streakPositions,3
+  )
+);
 
-    document.getElementById('galaxy-content').classList.add('show');
-  }
-}
+const streakMaterial =
+  new THREE.LineBasicMaterial({
 
-// CINEMATIC CAMERA
-let elapsedTime=0;
+    color:0xe9baff,
 
-function animate() {
-  requestAnimationFrame(animate);
+    transparent:true,
 
-  const delta=Math.min(clock.getDelta(),0.05);
-  elapsedTime+=delta;
+    opacity:0,
 
-  updateWarp(delta);
+    blending:THREE.AdditiveBlending
 
-  heart.rotation.y=Math.sin(elapsedTime*0.35)*0.22;
-  heart.rotation.z=Math.sin(elapsedTime*0.45)*0.035;
-
-  const pulse=1+Math.sin(elapsedTime*1.7)*0.025;
-  heart.scale.setScalar(pulse);
-
-  heartDust.rotation.y=elapsedTime*0.08;
-
-  rings.forEach((ring,i)=>{
-    ring.rotation.z+=(i%2===0 ? 1 : -1)*delta*(0.08+i*0.025);
-    ring.rotation.x=Math.sin(elapsedTime*0.15+i)*0.08+0.35+i*0.2;
   });
 
-  pinkLight.intensity=90+Math.sin(elapsedTime*1.5)*15;
-  violetLight.intensity=110+Math.cos(elapsedTime*1.2)*20;
+const streaks =
+  new THREE.LineSegments(
+    streakGeometry,
+    streakMaterial
+  );
 
-  glow1.material.opacity=0.2+Math.sin(elapsedTime)*0.08;
+scene.add(streaks);
 
-  if(cinematicStarted && !warp) {
-    camera.position.x=Math.sin(elapsedTime*0.18)*0.45;
-    camera.position.y=Math.sin(elapsedTime*0.24)*0.22;
-    camera.lookAt(0,0,0);
-  }
+function resetStreak(i) {
 
-  composer.render();
+  const spreadX =
+    (Math.random()-0.5)*24;
+
+  const spreadY =
+    (Math.random()-0.5)*18;
+
+  const z =
+    -30-Math.random()*85;
+
+  const index=i*6;
+
+  streakPositions[index]=spreadX;
+  streakPositions[index+1]=spreadY;
+  streakPositions[index+2]=z;
+
+  streakPositions[index+3]=spreadX;
+  streakPositions[index+4]=spreadY;
+  streakPositions[index+5]=z-0.5;
+
 }
 
-const clock=new THREE.Clock();
+for(let i=0;i<streakCount;i++) {
+  resetStreak(i);
+}
+
+streakGeometry.attributes.position.needsUpdate=true;
+
+// ==========================
+// CINEMATIC CAMERA
+// ==========================
+
+const clock = new THREE.Clock();
+
+let elapsed=0;
+
+let warp=false;
+
+let warpTime=0;
+
+let cinematicStarted=false;
+
+let lastTime=0;
+
+function startWarp() {
+
+  warp=true;
+
+  warpTime=performance.now();
+
+  cinematicStarted=false;
+
+  camera.position.set(0,0,28);
+
+  streakMaterial.opacity=0;
+
+  document
+    .getElementById('warp-overlay')
+    .animate(
+      [
+        {opacity:0},
+        {opacity:0.35},
+        {opacity:0}
+      ],
+      {
+        duration:2600,
+        easing:'ease-in-out'
+      }
+    );
+}
+
+document
+  .getElementById('start')
+  .addEventListener('click',()=>{
+
+    showScreen('galaxy-screen');
+
+    startWarp();
+
+  });
+
+// ==========================
+// ANIMATION
+// ==========================
+
+function animate() {
+
+  requestAnimationFrame(animate);
+
+  const delta =
+    Math.min(clock.getDelta(),0.04);
+
+  elapsed+=delta;
+
+  // HEART FLOATING
+
+  heartGroup.position.y =
+    Math.sin(elapsed*0.8)*0.12;
+
+  heart.rotation.y =
+    Math.sin(elapsed*0.38)*0.17;
+
+  heart.rotation.x =
+    Math.sin(elapsed*0.25)*0.06;
+
+  heartDust.rotation.y =
+    elapsed*0.08;
+
+  const pulse =
+    1+Math.sin(elapsed*1.7)*0.012;
+
+  heartGroup.scale.setScalar(pulse);
+
+  // ORBITAL RINGS
+
+  orbitRings.forEach((ring,index)=>{
+
+    ring.rotation.z +=
+      delta*ring.userData.speed*0.09;
+
+  });
+
+  // PLANETS
+
+  planets.forEach((p)=>{
+
+    p.angle += delta*p.speed;
+
+    p.mesh.position.set(
+
+      Math.cos(p.angle)*p.radius,
+
+      Math.sin(p.angle)*p.radius*0.36,
+
+      Math.sin(p.angle*1.5+p.phase)*0.55
+
+    );
+
+  });
+
+  // LIGHT ANIMATION
+
+  pinkLight.intensity =
+    65+Math.sin(elapsed*1.4)*8;
+
+  purpleLight.intensity =
+    80+Math.cos(elapsed*1.1)*10;
+
+  // NEBULA MOTION
+
+  nebula1.material.opacity =
+    0.19+Math.sin(elapsed*.5)*0.05;
+
+  nebula2.material.opacity =
+    0.2+Math.cos(elapsed*.6)*0.05;
+
+  // WARP SPEED
+
+  if(warp) {
+
+    const duration =
+      (performance.now()-warpTime)/1000;
+
+    const progress =
+      Math.min(duration/3,1);
+
+    camera.position.z =
+      THREE.MathUtils.lerp(
+        28,13,
+        1-Math.pow(1-progress,3)
+      );
+
+    streakMaterial.opacity =
+      Math.sin(progress*Math.PI)*0.95;
+
+    const pos =
+      streakGeometry.attributes.position;
+
+    const speed =
+      delta*(75+progress*130);
+
+    for(let i=0;i<streakCount;i++) {
+
+      const index=i*6;
+
+      streakPositions[index+2]+=speed;
+
+      streakPositions[index+5]+=speed;
+
+      if(streakPositions[index+2]>15) {
+        resetStreak(i);
+      }
+
+    }
+
+    pos.needsUpdate=true;
+
+    if(duration>=3) {
+
+      warp=false;
+
+      cinematicStarted=true;
+
+      streakMaterial.opacity=0;
+
+      document
+        .getElementById('galaxy-content')
+        .classList.add('show');
+
+    }
+
+  }
+
+  // CINEMATIC CAMERA MOTION
+
+  if(cinematicStarted && !warp) {
+
+    const cameraX =
+      Math.sin(elapsed*.16)*0.4;
+
+    const cameraY =
+      Math.sin(elapsed*.23)*0.22;
+
+    camera.position.x +=
+      (cameraX-camera.position.x)*delta*0.5;
+
+    camera.position.y +=
+      (cameraY-camera.position.y)*delta*0.5;
+
+    camera.position.z +=
+      (13-camera.position.z)*delta*0.5;
+
+    camera.lookAt(0,0,0);
+
+  }
+
+  // RENDER
+
+  composer.render();
+
+}
+
 animate();
 
+// ==========================
 // RESIZE
+// ==========================
+
 window.addEventListener('resize',()=>{
-  camera.aspect=window.innerWidth/window.innerHeight;
+
+  const width=window.innerWidth;
+
+  const height=window.innerHeight;
+
+  camera.aspect=width/height;
+
   camera.updateProjectionMatrix();
 
-  renderer.setSize(window.innerWidth,window.innerHeight);
-  composer.setSize(window.innerWidth,window.innerHeight);
-  bloom.setSize(window.innerWidth,window.innerHeight);
+  renderer.setSize(width,height);
+
+  composer.setSize(width,height);
+
+  bloom.setSize(width,height);
+
 });
+
+// Pause rendering when the tab is hidden to save battery
+document.addEventListener('visibilitychange',()=>{
+
+  if(document.hidden) {
+    clock.stop();
+  } else {
+    clock.start();
+  }
+
+});
+
 </script>
 
 </body>
 </html>
-
