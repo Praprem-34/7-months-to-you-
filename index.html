@@ -436,6 +436,248 @@ h1 {
   transform: scale(.95);
 }
 
+
+/* =========================
+   3D GIFT SCENE
+========================= */
+
+.gift-stage {
+  position: relative;
+  width: 100%;
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+  overflow: visible;
+}
+
+.gift-box {
+  position: relative;
+  width: 120px;
+  height: 115px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  animation: giftFloat 2.5s ease-in-out infinite;
+  z-index: 3;
+}
+
+.gift-base {
+  position: absolute;
+  width: 105px;
+  height: 75px;
+  left: 7px;
+  bottom: 0;
+
+  border-radius: 8px;
+  background: linear-gradient(
+    135deg,
+    #ffdf35,
+    #e99b00,
+    #ffd83e
+  );
+
+  box-shadow:
+    inset -8px -8px 12px rgba(130,65,0,.3),
+    0 12px 25px rgba(255,170,0,.3);
+}
+
+.gift-ribbon {
+  position: absolute;
+  width: 22px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,#d92748,#ff6078,#bd153b
+  );
+  left: 42px;
+}
+
+.gift-lid {
+  position: absolute;
+  width: 120px;
+  height: 27px;
+  top: 12px;
+  left: 0;
+  z-index: 2;
+
+  border-radius: 7px;
+  background: linear-gradient(
+    135deg,#ffe85a,#f5ae00,#ffdf43
+  );
+
+  box-shadow: 0 5px 12px rgba(255,180,0,.4);
+
+  transform-origin: left bottom;
+  transition: transform .65s ease;
+}
+
+.gift-lid::after {
+  content: "";
+  position: absolute;
+  width: 23px;
+  height: 27px;
+  background: #e52b4d;
+  left: 49px;
+}
+
+.gift-bow {
+  position: absolute;
+  top: -32px;
+  left: 33px;
+  font-size: 38px;
+  z-index: 4;
+  filter: drop-shadow(0 0 8px #ff4f9c);
+}
+
+@keyframes giftFloat {
+  0%,100% {
+    transform: translateY(0) rotateY(-8deg);
+  }
+  50% {
+    transform: translateY(-10px) rotateY(8deg);
+  }
+}
+
+/* BOX OPENING */
+
+.gift-box.opening {
+  animation: giftShake .55s ease;
+}
+
+@keyframes giftShake {
+  0%,100% { transform: rotate(0); }
+  20% { transform: rotate(-8deg); }
+  40% { transform: rotate(8deg); }
+  60% { transform: rotate(-5deg); }
+  80% { transform: rotate(5deg); }
+}
+
+.gift-box.opening .gift-lid {
+  transform: translate(-15px,-48px)
+             rotate(-35deg);
+}
+
+/* =========================
+   MAGICAL BURST
+========================= */
+
+.gift-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.burst-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: var(--size);
+  opacity: 0;
+
+  animation: burstFly 1.5s
+    cubic-bezier(.15,.7,.25,1) forwards;
+
+  filter: drop-shadow(
+    0 0 10px rgba(255,100,210,.9)
+  );
+}
+
+@keyframes burstFly {
+  0% {
+    transform: translate(-50%,-50%)
+               scale(.2) rotate(0);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    transform:
+      translate(
+        calc(-50% + var(--x)),
+        calc(-50% + var(--y))
+      )
+      scale(1.2)
+      rotate(var(--rotation));
+
+    opacity: 0;
+  }
+}
+
+/* =========================
+   HEART REVEAL
+========================= */
+
+.gift-heart {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(.2);
+
+  transition:
+    opacity .8s ease,
+    transform .8s cubic-bezier(.2,.8,.3,1.4);
+
+  z-index: 4;
+}
+
+.gift-heart.show {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.heart-3d {
+  font-size: 100px;
+
+  filter:
+    drop-shadow(0 0 12px #ff36a5)
+    drop-shadow(0 0 30px #c026ff);
+
+  animation: heartFloat 2s ease-in-out infinite;
+}
+
+@keyframes heartFloat {
+  0%,100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-9px) scale(1.08);
+  }
+}
+
+.gift-heart p {
+  color: #ffd2ed;
+  font-size: 14px;
+  text-align: center;
+}
+
+.gift-box.finished {
+  opacity: 0;
+  transform: scale(.2);
+  pointer-events: none;
+  transition: .5s ease;
+}
+
+#gift-hint {
+  transition: opacity .4s ease;
+}
+
+  
 </style>
 </head>
 
@@ -537,7 +779,33 @@ h1 {
     <div class="eyebrow">A LITTLE SURPRISE</div>
     <h2>Something for You</h2>
 
-    <div class="gift" onclick="openGift()">🎁</div>
+    <<div class="gift-stage" id="gift-stage">
+
+  <div class="gift-box" id="gift-box"
+       onclick="openGift()">
+
+    <div class="gift-lid">
+      <div class="gift-bow">🎀</div>
+    </div>
+
+    <div class="gift-base">
+      <div class="gift-ribbon"></div>
+    </div>
+
+  </div>
+
+  <div class="gift-burst" id="gift-burst"></div>
+
+  <div class="gift-heart" id="gift-heart">
+    <div class="heart-3d">💝</div>
+    <p>My greatest gift is you ♡</p>
+  </div>
+
+</div>
+
+<p id="gift-hint">
+  Tap the gift box to open it ♡
+</p>
 
     <div id="gift-message">
       Tap the gift box to open it ♡
@@ -1950,6 +2218,90 @@ document.addEventListener('visibilitychange',()=>{
   }
 
 });
+
+  
+/* =========================
+   MAGICAL GIFT OPENING
+========================= */
+
+let giftOpened = false;
+
+window.openGift = function() {
+
+  if (giftOpened) return;
+
+  giftOpened = true;
+
+  const box = document.getElementById("gift-box");
+  const burst = document.getElementById("gift-burst");
+  const heart = document.getElementById("gift-heart");
+  const hint = document.getElementById("gift-hint");
+
+  // เปลี่ยนข้อความ
+  hint.style.opacity = "0";
+
+  // 1. กล่องสั่นและเปิดออก
+  box.classList.add("opening");
+
+  // 2. สร้างดาวและหัวใจพุ่งออกมา
+  setTimeout(() => {
+
+    const particles = [
+      "♡","♥","✦","✧","✨",
+      "💗","⭐","💕","✦","♡",
+      "🌟","💖","✨","♥","✧",
+      "💫","♡","⭐","💗","✦"
+    ];
+
+    particles.forEach((symbol) => {
+
+      const particle = document.createElement("span");
+
+      particle.className = "burst-particle";
+      particle.textContent = symbol;
+
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 75 + Math.random() * 115;
+
+      const x = Math.cos(angle) * distance;
+      const y = Math.sin(angle) * distance;
+
+      particle.style.setProperty("--x", x + "px");
+      particle.style.setProperty("--y", y + "px");
+
+      particle.style.setProperty(
+        "--size",
+        (14 + Math.random() * 17) + "px"
+      );
+
+      particle.style.setProperty(
+        "--rotation",
+        (Math.random() * 360) + "deg"
+      );
+
+      burst.appendChild(particle);
+
+      setTimeout(() => {
+        particle.remove();
+      }, 1700);
+
+    });
+
+  }, 550);
+
+  // 3. ซ่อนกล่องและแสดงหัวใจหลังเอฟเฟกต์
+  setTimeout(() => {
+
+    box.classList.add("finished");
+
+    heart.classList.add("show");
+
+    hint.style.opacity = "1";
+    hint.textContent = "My greatest gift is you ♡";
+
+  }, 2200);
+
+};
 
 </script>
 
