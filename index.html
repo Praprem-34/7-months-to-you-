@@ -999,7 +999,7 @@ h1 {
 
   <div class="gift-heart" id="gift-heart">
     <div class="heart-3d">💝</div>
-    <p>My greatest gift is you ♡</p>
+    <p>ของขวัญที่ยิ่งใหญ่ที่สุดของเค้าคือเธอ ♡</p>
   </div>
 
 </div>
@@ -1162,6 +1162,15 @@ h1 {
   Next ♡
 </button>
 
+<div id="hint">MADE WITH LOVE ♡</div>
+
+      <!-- BACKGROUND MUSIC -->
+<audio id="bg-music"
+       src="music.mp3"
+       preload="auto"
+       loop>
+</audio>
+      
     </div>
 
   </div>
@@ -1205,18 +1214,17 @@ h1 {
     <div class="eyebrow">JUST FOR YOU</div>
     <h2>My Love Letter</h2>
 
-    <div class="letter">To my favorite person,
+    <div class="letter">แด่แฟน ผู้ประเสริฐและดีที่สุดของเค้า,
 
-Thank you for being part of my life.
-Thank you for every smile, every hug,
-and every little moment we share.
+ขอบคุณที่เข้ามาเป็นส่วนหนึ่งในชีวิตของเค้า
+ขอบคุณสำหรับทุกรอยยิ้ม ทุกอ้อมกอด
+และทุกช่วงเวลาเล็กๆ น้อยๆ ที่เราได้แบ่งปันร่วมกัน
 
-Even if the universe is endless,
-my favorite place will always be
-wherever you are.
+ต่อให้จักรวาลจะกว้างใหญ่ไร้ที่สิ้นสุด
+แต่สถานที่ที่เค้าชอบที่สุด ก็ยังคงเป็นที่ที่มีเธออยู่เสมอ
 
-I hope we can create many more
-beautiful memories together.
+หวังว่าเราจะสามารถสร้างความทรงจำดีๆ
+ร่วมกันต่อไปได้อีกมากมายนะ.
 
 Happy Anniversary, my love. ♡</div>
 
@@ -1275,11 +1283,11 @@ window.showScreen = function(id) {
 };
 
 const memories = [
-  "The day our story began became one of my favorite memories. ♡",
-  "Out of all the people in this universe, I am glad I found you.",
-  "Even the smallest moments become special when I spend them with you.",
-  "No matter how far the stars are, I will always choose you.",
-  "I promise to keep making beautiful memories with you. ♡"
+  "วันที่เรื่องราวของเราเริ่มต้นขึ้น กลายเป็นหนึ่งในความทรงจำที่เค้าโปรดปรานที่สุด ♡",
+  "ในบรรดาผู้คนมากมายในจักรวาลนี้ เค้าดีใจที่สุดที่ได้เจอเธอ",
+  "แม้แต่ช่วงเวลาที่เล็กน้อยที่สุด ก็กลายเป็นช่วงเวลาที่พิเศษขึ้นมาได้ เมื่อเค้าได้ใช้มันร่วมกับเธอ",
+  "ไม่ว่าดวงดาวจะอยู่ไกลแค่ไหน เค้าก็จะเลือกเธอเสมอ.",
+  "ฉันสัญญาว่าจะสร้างความทรงจำดีๆ ร่วมกับคุณต่อไปเรื่อยๆและพยายามเป็นคนที่ดีขึ้น. ♡"
 ];
 
 
@@ -1296,28 +1304,28 @@ const memoryData = [
     icon: "✦",
     title: "My Favorite Person",
     description:
-      "ท่ามกลางผู้คนมากมายบนโลกใบนี้\n\nเธอคือคนที่ทำให้วันธรรมดาของฉันกลายเป็นวันที่พิเศษ\n\nและยังคงเป็นคนโปรดของฉันเสมอ"
+      "ท่ามกลางผู้คนมากมายบนโลกใบนี้\n\nเธอคือคนที่ทำให้วันธรรมดาของเค้ากลายเป็นวันที่พิเศษ\n\nและยังคงเป็นคนโปรดของเค้าเสมอ"
   },
 
   {
     icon: "☾",
     title: "Little Happiness",
     description:
-      "ความสุขไม่จำเป็นต้องเป็นเรื่องใหญ่เสมอไป\n\nบางครั้งแค่การได้นั่งข้างกัน พูดคุยกัน หรือใช้เวลาเล็ก ๆ ด้วยกัน\n\nก็เพียงพอที่จะทำให้ฉันมีความสุขแล้ว"
+      "ความสุขไม่จำเป็นต้องเป็นเรื่องใหญ่เสมอไป\n\nบางครั้งแค่การได้นั่งเล่นเกมข้างกัน พูดคุยกัน หรือใช้เวลาเล็ก ๆ ด้วยกัน\n\nก็เพียงพอที่จะทำให้เค้ามีความสุขแล้ว"
   },
 
   {
     icon: "∞",
     title: "Forever Us",
     description:
-      "ไม่ว่าเวลาจะผ่านไปนานแค่ไหน\n\nฉันก็ยังอยากมีเธออยู่ในทุกช่วงเวลาของชีวิต\n\nขอให้เรายังคงจับมือกันและเติบโตไปด้วยกันนะ ♡"
+      "ไม่ว่าเวลาจะผ่านไปนานแค่ไหน\n\nเค้าก็ยังอยากมีเธออยู่ในทุกช่วงเวลาของชีวิต\n\nขอให้เรายังคงจับมือกันและเติบโตไปด้วยกันนะ ♡"
   },
 
   {
     icon: "🌷",
     title: "My Promise",
     description:
-      "ฉันสัญญาว่าจะดูแลความรักของเราให้ดีที่สุด\n\nอาจไม่ได้เป็นคนที่สมบูรณ์แบบในทุกวัน\n\nแต่จะพยายามเป็นคนที่ทำให้เธอยิ้มได้เสมอ\n\nI love you, always. ♡"
+      "เค้าสัญญาว่าจะดูแลความรักของเราให้ดีที่สุด\n\nอาจไม่ได้เป็นคนที่สมบูรณ์แบบในทุกวัน\n\nแต่จะพยายามเป็นคนที่ทำให้เธอยิ้มได้เสมอ\n\nI love you, always. ♡"
   }
 
 ];
@@ -1368,7 +1376,7 @@ window.openGift = function() {
   document.querySelector('.gift').textContent = '💝';
 
   document.getElementById('gift-message').textContent =
-    'My greatest gift is having you in my life. I love you endlessly. ♡';
+    'ของขวัญที่ยิ่งใหญ่ที่สุดของเค้าคือการที่มีเธออยู่ในชีวิต เค้ารักเธอที่สุดเท่ากับจักรวาลเลย ♡';
 };
 
 // PUZZLE
@@ -2268,8 +2276,19 @@ document
   .getElementById('start')
   .addEventListener('click',()=>{
 
+    // เริ่มเล่นเพลงทันที
+    const music = document.getElementById('bg-music');
+
+    music.volume = 0.45;
+
+    music.play().catch(error => {
+      console.log("Music playback failed:", error);
+    });
+
+    // เข้าสู่จักรวาล
     showScreen('galaxy-screen');
 
+    // เริ่มเอฟเฟกต์ Warp
     startWarp();
 
   });
@@ -2632,32 +2651,32 @@ const galleryData = [
 
   {
     title: "Our Little World ♡",
-    description: "A little moment that means so much to me."
+    description: "ช่วงเวลาเล็กๆ ที่มีความหมายกับเค้ามากกกก🤍"
   },
 
   {
     title: "Sweet Moments ✦",
-    description: "Every little touch becomes a beautiful memory."
+    description: "ทุกสัมผัสเล็กน้อยกลายเป็นความทรงจำที่งดงาม"
   },
 
   {
     title: "Little Date ☕",
-    description: "Simple days are special when I'm with you."
+    description: "วันธรรมดา ๆ กลายเป็นช่วงเวลาพิเศษเมื่อเค้าได้อยู่กับเธอ"
   },
 
-  {
+  
     title: "Our Adventures ♡",
-    description: "More places, more adventures, more memories."
+    description: "สถานที่มากขึ้น การผจญภัยมากขึ้น ความทรงจำมากขึ้น🚀"
   },
 
   {
     title: "My Favorite View ✧",
-    description: "There is no view more beautiful than you."
+    description: "ไม่มีทิวทัศน์ใดงดงามไปกว่าเธออีกแล้ว✨"
   },
 
   {
     title: "Forever Us ∞",
-    description: "My favorite story will always be us."
+    description: "เรื่องราวที่ฉันชอบที่สุดก็คือเรื่องราวของเราสองคนเสมอ"
   }
 
 ];
