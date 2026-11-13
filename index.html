@@ -1152,17 +1152,16 @@ h1 {
 
     <div class="gallery-buttons">
 
-      <button class="secondary"
-              onclick="showScreen('puzzle-screen')">
-        Back
+      <button class="back-btn"
+        onclick="showScreen('puzzle-screen')">
+  Back
+</button>
       </button>
 
       <button class="primary-btn"
         onclick="showScreen('letter')">
   Next ♡
 </button>
-
-<div id="hint">MADE WITH LOVE ♡</div>
 
       <!-- BACKGROUND MUSIC -->
 <audio id="bg-music"
@@ -1364,20 +1363,6 @@ document.getElementById('memory-overlay')
     }
 
   });
-
-
-let giftOpened = false;
-
-window.openGift = function() {
-  if(giftOpened) return;
-
-  giftOpened = true;
-
-  document.querySelector('.gift').textContent = '💝';
-
-  document.getElementById('gift-message').textContent =
-    'ของขวัญที่ยิ่งใหญ่ที่สุดของเค้าคือการที่มีเธออยู่ในชีวิต เค้ารักเธอที่สุดเท่ากับจักรวาลเลย ♡';
-};
 
 // PUZZLE
 let puzzleTiles = [];
@@ -2664,7 +2649,7 @@ const galleryData = [
     description: "วันธรรมดา ๆ กลายเป็นช่วงเวลาพิเศษเมื่อเค้าได้อยู่กับเธอ"
   },
 
-  
+  {
     title: "Our Adventures ♡",
     description: "สถานที่มากขึ้น การผจญภัยมากขึ้น ความทรงจำมากขึ้น🚀"
   },
